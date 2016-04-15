@@ -3,8 +3,8 @@
  */
 
 var board = require('../controllers/server.board.controller'),
-    users = require('../controllers/server.user.controller'),
-    memos = require('../controllers/server.memo.controller');
+    users = require('../controllers/server.user.controller');
+
 
 module.exports = function(app){
 

@@ -31,8 +31,7 @@ module.exports.index = function(req, res){
     var message = req.flash('error')[0];
     console.log("render index");
     res.render('index', {
-            user : JSON.stringify(req.user) || 'undefined',
-            errorMessage : message
+            user : JSON.stringify(req.user) || 'undefined'
         });
 };
 
@@ -44,11 +43,8 @@ module.exports.signUp = function(req, res, next){
         user.password = user.hashPassword(user.password);
         user.save(function (err) {
             if (err) {
-                console.log("sssss");
                 var message = getErrorMessage(err);
                 req.flash('error', message);
-                console.log(message);
-                //return res.redirect('/#!/signup');
                 return res.send(200,{'Content-Type' : 'text/html', 'msg' : message});
             }
             req.login(user, function (err1) { //이걸 실행하면 serialze 메서드가 실행되고 serialize에서 사용자 세션(req.user) 생성.passport.authenticate()메서드 사용할 때 자동으로 호출되기도 함.
@@ -57,7 +53,7 @@ module.exports.signUp = function(req, res, next){
                     console.log("login error");
                     return next(err1);
                 }
-                res.send({msg : ""});
+                res.send(200, {msg : ""});
             });
 
         });
@@ -66,35 +62,6 @@ module.exports.signUp = function(req, res, next){
         res.redirect('/#!/main');
     }
 };
-
-/*
-module.exports.signIn = function(req, res, next){
-
-    passport.authenticate('local');
-
-        var user = new User(req.body);
-        user.newSalt();
-        user.password = user.hashPassword(user.password);
-        user.save(function (err) {
-            if (err) {
-                console.log("sssss");
-                var message = getErrorMessage(err);
-                req.flash('error', message);
-                console.log(message);
-                //return res.redirect('/#!/signup');
-                return res.send(200,{'Content-Type' : 'text/html', 'msg' : message});
-            }
-            req.login(user, function (err1) { //이걸 실행하면 serialze 메서드가 실행되고 serialize에서 사용자 세션(req.user) 생성.passport.authenticate()메서드 사용할 때 자동으로 호출되기도 함.
-                console.log("login");
-                if (err1) {
-                    console.log("login error");
-                    return next(err1);
-                }
-                res.send({msg : ""});
-            });
-
-        });
-};*/
 
 module.exports.signOut = function(req, res, next){
     if(req.user) req.logout();

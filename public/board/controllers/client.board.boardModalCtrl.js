@@ -1,8 +1,8 @@
 /**
  * Created by Jun on 2016-04-06.
  */
-angular.module('board').controller('boardModalController', ['$scope', '$location', '$routeParams', '$route','close', 'Board', 'BoardInformation',
-    function($scope, $location, $routeParams,$route, close, Board, BoardInformation) {
+angular.module('board').controller('boardModalController', ['$rootScope','$scope', '$location', '$routeParams', '$route','close', 'Board', 'BoardInformation',
+    function($rootScope, $scope, $location, $routeParams,$route, close, Board, BoardInformation) {
 
         $scope.boardInfo = BoardInformation;
 
@@ -10,7 +10,6 @@ angular.module('board').controller('boardModalController', ['$scope', '$location
             close(result, 100);
             $location.path('/main');
         };
-
 
         $scope.close2 = function(result) {
             close(result, 100);
@@ -22,9 +21,9 @@ angular.module('board').controller('boardModalController', ['$scope', '$location
                 name : this.name
             });
 
-            board.$save(function(response){
+            board.$save(function(board){
                 close(100);
-                $location.path('/main/');
+                $rootScope.$emit('$boardCreate', board);
             }, function(errorResponse){
                 $scope.error = errorResponse.data.message;
             });

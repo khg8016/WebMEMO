@@ -16,17 +16,26 @@ var getErrorMessage = function(err) {
     }
 };
 
+module.exports.renderBoard = function(req, res){
+    var message = req.flash('error')[0];
+    console.log("render board");
+    res.render('board', {
+        user : JSON.stringify(req.user) || 'undefined'
+    });
+};
+
 module.exports.create = function(req, res){
     var board = new Board(req.body);
     board.creator = req.user;
     board.members.push(req.user);
+
     board.save(function(err){
         if(err){
             return res.status(400).send({
                 message: getErrorMessage(err)
             });
         } else{
-            //res.json(board);
+            res.json(board);
         }
     });
 
@@ -43,9 +52,29 @@ module.exports.create = function(req, res){
                         message: getErrorMessage(err1)
                     });
                 } else {
-                    res.json(user);
+                    console.log("suceess");
                 }
             });
+        }
+    });
+};
+
+module.exports.read = function(req, res){
+    res.json(req.board);
+};
+
+
+module.exports.update = function(req, res){
+    var board = req.board;
+    board.name = req.body.name;
+
+    board.save(function(err){
+        if(err){
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else{
+            res.json(board);
         }
     });
 };
@@ -83,21 +112,6 @@ module.exports.delete = function(req, res){
                 }
             });
             //res.json(board);
-        }
-    });
-};
-
-module.exports.update = function(req, res){
-    var board = req.board;
-    board.name = req.body.name;
-
-    board.save(function(err){
-        if(err){
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else{
-            res.json(board);
         }
     });
 };
@@ -146,18 +160,7 @@ module.exports.addMember = function(req, res){
     });
 };
 
-module.exports.renderBoard = function(req, res){
-    var message = req.flash('error')[0];
-    console.log("render board");
-    res.render('board', {
-        user : JSON.stringify(req.user) || 'undefined'
-    });
-};
-
-
 module.exports.boardList = function(req, res){
-    //var user = req.user;
-    console.log("boardlist");
 
     User.findOne({_id : req.user._id}).populate('boards').exec(function(err, user) {
         if (err) {
@@ -169,12 +172,6 @@ module.exports.boardList = function(req, res){
         }
     });
 };
-
-
-module.exports.read = function(req, res){
-    res.json(req.board);
-};
-
 
 exports.hasAuthorization = function(req, res, next){ //글 작성자가 수정이나 지우려고 할 때 너가 권한 갖고있니? 이거
     if(req.board.creator.id !== req.user._id){ //글 작성자와 현재 유저가 같은지 확인

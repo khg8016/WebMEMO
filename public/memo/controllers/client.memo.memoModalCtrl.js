@@ -1,4 +1,5 @@
 /**
+/**
  * Created by Jun on 2016-04-06.
  */
 
@@ -49,14 +50,13 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
                                 );
                             };
 
-                            $scope.makeComment = function(){
+                            $scope.createComment = function(){
                                 var comment = new Comments({
                                     content : this.comment
                                 });
 
                                 comment.$save({boardId: $routeParams.boardId, memoId: $routeParams.memoId},
                                     function(comment){
-                                        console.log("fdsafs" + comment._id);
                                         $scope.comment = "";
                                         $scope.comments.push(comment);
 

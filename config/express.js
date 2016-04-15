@@ -45,6 +45,7 @@ module.exports = function(db){
     require('../app/routes/server.board.routes')(app);
     require('../app/routes/server.index.routes')(app);
     require('../app/routes/server.memo.routes')(app);
+    require('../app/routes/server.comment.routes')(app);
 
 
     app.use(express.static('./public'));

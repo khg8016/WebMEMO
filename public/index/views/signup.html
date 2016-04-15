@@ -1,30 +1,3 @@
-
-<!--
-<section ng-controller="IndexController" ng-cloak class="ng-cloak">
-    <form name="signUpForm" class="form-signin" action='/signup' method='post'>
-        <h2 class="form-signin-heading">쉽고 빠른 가입</h2>
-        <br>
-        <input ng-model="username" type='text' class='form-control' name='username' placeholder='User name' required autofocus=''>
-
-        <br>
-        <input ng-model="password" ng-change="check()" class='form-control' ng-pattern="/^(?=.*\d)(?=.*[a-z]).{6,16}$/" type='password' name='password' placeholder='비밀번호' required autofocus=''>
-        <h ng-show="signUpForm.password.$error.pattern" role="alert">6~16자 영문자, 숫자를 사용하세요.</h>
-        <h ng-show="signUpForm.password.$valid && !signUpForm.password.$pristine" role="alert">적절한 비밀번호 입니다.</h>
-        <br>
-        <input ng-model="confirm_pw" ng-change="check()" class='form-control' type='password' name='confirm_pw' placeholder='비밀번호 재확인' required autofocus=''>
-        <h ng-show="password != confirm_pw && confirm_pw.length > 0" role="alert">비밀번호가 일치하지 않습니다.</h>
-        <h ng-show="password == confirm_pw && confirm_pw.length > 0" role="alert">비밀번호가 일치합니다.</h>
-        <br>
-        <br>
-        <input type="button" class="btn btn-lg btn-primary btn-block" value="가입하기" ng-click="c()" ng-disabled="signUpForm.$invalid"/>
-        <button type="button" class="btn btn-lg btn-primary btn-block" onclick="location.href='/'" >메인 화면으로</button>
-    </form>
-    <div data-ng-show="message">
-        <strong data-ng-bind="message"></strong>
-    </div>
-</section> -->
-
-
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">

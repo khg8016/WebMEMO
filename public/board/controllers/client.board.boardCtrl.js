@@ -3,12 +3,16 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$scope', '$routeParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation',
-    function($scope, $routeParams, $location, ModalService, Authentication, Memos, Board, BoardInformation){
+angular.module('board').controller('boardController', ['$rootScope', '$scope', '$routeParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation',
+    function($rootScope, $scope, $routeParams, $location, ModalService, Authentication, Memos, Board, BoardInformation){
         $scope.boardId = $routeParams.boardId;
         $scope.authentication = Authentication;
-
+        $scope.boards = {};
         $scope.boardInfo = BoardInformation;
+
+        $rootScope.$on('$boardCreate', function(event, board){
+            $scope.boards.push(board);
+        });
 
         $scope.findBoards = function(){ //보드들을 찾음
             $scope.boards = Board.query();
@@ -22,9 +26,7 @@ angular.module('board').controller('boardController', ['$scope', '$routeParams',
             $scope.board = Board.get({boardId : $routeParams.boardId}, function(){
                 $scope.boardInfo.name = $scope.board.name;
             });
-
         };
-
 
         $scope.delete = function(board){// 보드 제거
             if(board){
@@ -92,15 +94,6 @@ angular.module('board').controller('boardController', ['$scope', '$routeParams',
             });
         };
 
-        $scope.viewEdit = function() {
-            ModalService.showModal({
-                templateUrl: 'memo/views/client.memo.modalEdit.html',
-                controller: "memoModalController"
-            }).then(function(modal) {
-                modal.element.modal();
-            });
-        };
-
         $scope.viewMemo = function() {
             ModalService.showModal({
                 templateUrl: 'memo/views/client.memo.modalView.html',
@@ -118,6 +111,8 @@ angular.module('board').controller('boardController', ['$scope', '$routeParams',
                 modal.element.modal();
             });
         };
+
+
 
 
     }

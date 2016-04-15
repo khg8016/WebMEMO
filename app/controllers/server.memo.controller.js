@@ -97,21 +97,9 @@ module.exports.memoById = function(req, res, next, id){
     });
 };
 
-module.exports.commentById = function(req, res, next, id){
-    var comments = req.memo.comments;
-    for(var i in comments){
-        if(comments[i].id === id) {
-            req.comment = comments[i];
-        }
-    }
-    next();
-};
-
 module.exports.memoList = function(req, res){
     var board = req.board;
     res.json(board.memos);
-
-
 };
 
 exports.hasAuthorization = function(req, res, next){ //글 작성자가 수정이나 지우려고 할 때 너가 권한 갖고있니? 이거
@@ -123,78 +111,3 @@ exports.hasAuthorization = function(req, res, next){ //글 작성자가 수정�
     next();
 };
 
-module.exports.addComment = function(req ,res){
-    var memo = req.memo;
-    console.log("add comment");
-    var comment = {
-        _id : new mongoose.Types.ObjectId(),
-        content : req.body.content,
-        created : Date.now(),
-        creator : req.user
-    };
-    memo.comments.push(comment);
-
-
-    memo.save(function(err){
-        if(err){
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else{
-            res.json(comment);
-        }
-    });
-};
-
-module.exports.deleteComment = function(req ,res){
-    console.log("delete comment");
-    var memo = req.memo;
-    var comment = req.comment;
-    var comments = memo.comments;
-    for(var i in comments){
-        if(comments[i].id === comment.id) {
-            comments.splice(i, 1);
-        }
-    }
-    memo.save(function(err) {
-        if (err) {
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else {
-            res.json(memo);
-        }
-    });
-};
-
-module.exports.updateComment = function(req ,res){
-
-    var memo = req.memo;
-    var comment = req.comment;
-    var comments = memo.comments;
-    var comment1;
-
-    for(var i in comments){
-        if(comments[i].id === comment.id) {
-            comments[i].content = req.body.content;
-            comments[i].created = Date.now();
-            comment1 = comments[i];
-        }
-    }
-
-    memo.save(function(err){
-        if(err){
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        } else{
-            console.log("update save success");
-            res.json(comment1);
-        }
-    });
-
-};
-
-module.exports.getComments = function(req ,res){
-    res.json(req.memo.comments);
-};

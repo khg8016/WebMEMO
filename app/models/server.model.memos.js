@@ -26,16 +26,14 @@ var memoSchema = new Schema({
     },
     comments : [{
         _id : {
-            type : Schema.ObjectId,
-            default: function () { return new mongoose.Types.ObjectId()}
+            type : Schema.ObjectId
         },
         content : {
             type : String,
             trim : true
         } ,
         created : {
-            type: Date,
-            default : Date.now()
+            type: Date
         } ,
         creator : {
             type: Schema.ObjectId,

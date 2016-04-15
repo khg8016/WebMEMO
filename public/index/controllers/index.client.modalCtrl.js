@@ -46,10 +46,9 @@ angular.module('index').controller('modalController', ['$scope', '$location', '$
                 url: 'http://localhost:3000/signin',
                 data: data
             }).success(function (data) {
-                console.log("suceess");
                 if(data.msg != "")
                     $scope.message = data.msg;
-                if(data.msg =="") {
+                else if(data.msg =="") {
                     window.location = '/webmemo#!/main';
                 }
             }).error(function(data){
