@@ -92,12 +92,12 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
                         for(var i in $scope.comments){
                             if($scope.comments[i] === comment)
                                 $scope.commentToggle[i] = false;
-                               // $scope.comments[i] = comment1;
+                               // $scope.comments[] = comment1;
                         }
                         $scope.comments = Comments.query({boardId: $routeParams.boardId, memoId : $routeParams.memoId});
                         console.log("success");
                     }, function () {
-                        console.log("Error");
+                        console.log("Error");i
                     }
                 );
             }
