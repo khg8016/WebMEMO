@@ -3,10 +3,13 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$scope', '$routeParams', '$route','$location', 'ModalService', 'Authentication', 'Memos', 'Board',
-    function($scope, $routeParams, $route, $location, ModalService, Authentication, Memos, Board){
+angular.module('board').controller('boardController', ['$scope', '$routeParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation',
+    function($scope, $routeParams, $location, ModalService, Authentication, Memos, Board, BoardInformation){
         $scope.boardId = $routeParams.boardId;
         $scope.authentication = Authentication;
+
+        $scope.boardInfo = BoardInformation;
+
         $scope.findBoards = function(){ //보드들을 찾음
             $scope.boards = Board.query();
         };
@@ -16,7 +19,10 @@ angular.module('board').controller('boardController', ['$scope', '$routeParams',
         };
 
         $scope.findOne = function(){ //특정 보드 찾음
-            $scope.board = Board.get({boardId : $routeParams.boardId});
+            $scope.board = Board.get({boardId : $routeParams.boardId}, function(){
+                $scope.boardInfo.name = $scope.board.name;
+            });
+
         };
 
 
@@ -79,8 +85,8 @@ angular.module('board').controller('boardController', ['$scope', '$routeParams',
 
         $scope.viewRename = function() {
             ModalService.showModal({
-                templateUrl: 'board/views/client.board.edit.html',
-                controller: "boardModalController"
+                templateUrl: 'board/views/client.board.rename.html',
+                controller: "boardRenameController"
             }).then(function(modal) {
                 modal.element.modal();
             });

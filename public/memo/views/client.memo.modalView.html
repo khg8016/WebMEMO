@@ -23,7 +23,7 @@
                     <br>
                     <small data-ng-bind="memo.created | date:'medium'"></small>
                     <small data-ng-bind="memo.creator.username"></small>
-                    <a class="btn btn-default" href data-ng-click="toggleEdit()">edit</a>
+                    <a data-ng-show="authentication.user._id == memo.creator._id" class="btn btn-default" href data-ng-click="toggleEdit()">edit</a>
                 </div>
                 <div data-ng-show="!memoToggle">
                     <form data-ng-submit="update()" novalidate>

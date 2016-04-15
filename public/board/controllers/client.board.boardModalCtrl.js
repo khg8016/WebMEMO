@@ -1,16 +1,16 @@
 /**
  * Created by Jun on 2016-04-06.
  */
-angular.module('board').controller('boardModalController', ['$scope', '$location', '$routeParams', '$route','close', 'Board',
-    function($scope, $location, $routeParams,$route, close, Board) {
+angular.module('board').controller('boardModalController', ['$scope', '$location', '$routeParams', '$route','close', 'Board', 'BoardInformation',
+    function($scope, $location, $routeParams,$route, close, Board, BoardInformation) {
 
-
-        $scope.board = Board.get({boardId : $routeParams.boardId});
+        $scope.boardInfo = BoardInformation;
 
         $scope.close1 = function(result) {
             close(result, 100);
             $location.path('/main');
         };
+
 
         $scope.close2 = function(result) {
             close(result, 100);
@@ -24,10 +24,10 @@ angular.module('board').controller('boardModalController', ['$scope', '$location
 
             board.$save(function(response){
                 close(100);
+                $location.path('/main/');
             }, function(errorResponse){
                 $scope.error = errorResponse.data.message;
             });
-
         };
 
         $scope.addMember = function(req, res){
@@ -43,14 +43,6 @@ angular.module('board').controller('boardModalController', ['$scope', '$location
             });
         };
 
-        $scope.update = function(){//보드 이름 바꾸기
-            $scope.board.$update(function(response){
-                close(100);
-                $route.reload();
-                //$location.path('/main/' + $routeParams.boardId+ "/memo");
-            }, function(errorResponse){
-                $scope.error = errorResponse.data.message;
-            });
-        };
+
     }
 ]);

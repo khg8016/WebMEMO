@@ -1,6 +1,6 @@
 <section data-ng-controller="boardController" data-ng-init="findMemos() || findOne()">
     <span data-ng-bind="authentication.user.username"></span>
-    <a href ng-click="viewRename()" data-ng-bind="board.name"></a>
+    <a href ng-click="viewRename()" data-ng-bind="boardInfo.name"></a>
     <a class="btn btn-default" href="/signout">Log out</a>
     <a class="btn btn-default" href data-ng-click="viewMemoCreate()" ->Create memos..</a>
     <a class="btn btn-default" href ng-click="viewInfo()">Board Information</a>
