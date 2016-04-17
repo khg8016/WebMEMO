@@ -4,7 +4,7 @@
         <a href ng-click="viewRename()" data-ng-bind="boardInfo.name"></a>
     </span>
     <span data-ng-show="authentication.user._id != board.creator._id">
-        <p data-ng-bind="boardInfo.name"></p>
+        <span data-ng-bind="boardInfo.name"></span>
     </span>
     <a class="btn btn-default" href="/signout">Log out</a>
     <a class="btn btn-default" href data-ng-click="viewMemoCreate()" ->Create memos..</a>
@@ -14,7 +14,7 @@
     <h1>Memos</h1>
     <ul scroll-glue>
         <div data-ng-repeat="memo in memos">
-            <a data-ng-bind="memo.title" ui-sref="boardMemo.view({boardId : boardId, memoId : memo._id})"></a>
+            <a data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})"></a>
             <br>
             <p data-ng-bind="memo.contents"></p>
             <br>
@@ -23,5 +23,4 @@
             </div>
         </div>
     </ul>
-    <div ui-view="memoView"></div>
 </section>

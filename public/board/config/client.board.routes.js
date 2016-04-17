@@ -5,7 +5,7 @@
 angular.module('board').config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider){
 
-        //$urlRouterProvider.otherwise('/main');
+        $urlRouterProvider.otherwise('/main');
 
         $stateProvider
             .state('board', {
@@ -13,13 +13,13 @@ angular.module('board').config(['$stateProvider', '$urlRouterProvider',
                 templateUrl: 'board/views/client.board.main.html',
                 controller: 'boardController'
             })
-            .state('boardMemo', {
+            .state('board_memo', {
                 url: '/main/:boardId/memo',
                 templateUrl: 'board/views/client.board.view.html',
                 controller: 'boardController'
             })
-            .state('boardMemo.view', {
-                url: '/main/:boardId/memo/:memoId',
+            .state('board_memo.view', {
+                url: '/:memoId',
                 controller: 'boardController',
                 onEnter: function (ModalService) {
                     ModalService.showModal({

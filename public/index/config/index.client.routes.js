@@ -4,7 +4,6 @@
 angular.module('index').config(['$stateProvider', '$urlRouterProvider',
     function ($stateProvider, $urlRouterProvider) {
 
-       // $urlRouterProvider.otherwise('/');
         $urlRouterProvider.when('', '/');
 
         $stateProvider
@@ -14,11 +13,7 @@ angular.module('index').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'IndexController'
             });
 
-
-       // $urlRouterProvider.otherwise('/');
-
-
-
-    }]);
+    }
+]);
 
 

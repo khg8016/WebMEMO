@@ -11,7 +11,6 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
 
         $scope.comments = Comments.query({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
         $scope.commentToggle = new Array();
-        $scope.cont = new Array();
 
         $scope.toggleEdit = function(){
                 $scope.memoToggle = false;

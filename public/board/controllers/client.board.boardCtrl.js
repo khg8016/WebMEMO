@@ -5,11 +5,10 @@
 
 angular.module('board').controller('boardController', ['$rootScope', '$scope', '$stateParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation',
     function($rootScope, $scope, $stateParams, $location, ModalService, Authentication, Memos, Board, BoardInformation){
-        $scope.boardId = $stateParams.boardId;
         $scope.authentication = Authentication;
-        $scope.boards = {};
-        $scope.memos = {};
         $scope.boardInfo = BoardInformation;
+        $scope.boards = new Array();
+        $scope.memos = new Array();
 
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);

@@ -3,7 +3,9 @@
  */
 var mainApplicationModuleNmae = 'webmemo';
 
-var mainApplicationModule = angular.module(mainApplicationModuleNmae, ['index', 'ngResource','ui.router','memo', 'board', 'angularModalService']); //모듈 생성 []안에있는거는 커스텀 모듈 혹은 외부모듈
+var mainApplicationModule = angular.module(mainApplicationModuleNmae, ['ngResource','ui.router', 'index', 'memo', 'board', 'angularModalService']); //모듈 생성 []안에있는거는 커스텀 모듈 혹은 외부모듈
+
+
 
 mainApplicationModule.config(['$locationProvider', function ($locationProvider){
     $locationProvider.hashPrefix('!'); //single page application을 알리기위해 설정~
