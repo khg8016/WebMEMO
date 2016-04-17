@@ -1,15 +1,15 @@
 /**
  * Created by Jun on 2016-04-06.
  */
-angular.module('board').controller('boardRenameController', ['$scope', '$location', '$routeParams','close', 'Board', 'BoardInformation',
-    function($scope, $location, $routeParams, close, Board, BoardInformation) {
+angular.module('board').controller('boardRenameController', ['$scope', '$location', '$stateParams','close', 'Board', 'BoardInformation',
+    function($scope, $location, $stateParams, close, Board, BoardInformation) {
 
-        $scope.board = Board.get({boardId : $routeParams.boardId});
+        $scope.board = Board.get({boardId : $stateParams.boardId});
         $scope.boardInfo = BoardInformation;
 
         $scope.close = function(result) {
             close(result, 100);
-            $location.path('/main/' + $routeParams.boardId+ "/memo");
+            $location.path('/main/' + $stateParams.boardId+ "/memo");
         };
 
         $scope.update = function(){//보드 이름 바꾸기

@@ -1,8 +1,8 @@
 /**
  * Created by Jun on 2016-04-05.
  */
-angular.module('index').controller('modalController', ['$scope', '$location', '$http','close', 'Authentication',
-    function($scope, $location, $http, close, Authentication) {
+angular.module('index').controller('modalController', ['$scope', '$location', '$http', '$state','close', 'Authentication',
+    function($scope, $location, $http, $state,close, Authentication) {
 
         $scope.message = Authentication.message;
 

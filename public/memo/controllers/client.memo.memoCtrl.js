@@ -2,22 +2,22 @@
  * Created by Jun on 2016-03-30.
  */
 
-angular.module('memo').controller('memoController', ['$scope', '$routeParams', '$location', 'ModalService','Authentication', 'Memos', 'Board',
-    function($scope, $routeParams, $location, ModalService, Authentication, Memos, Board){
+angular.module('memo').controller('memoController', ['$scope', '$stateParams', '$location', 'ModalService','Authentication', 'Memos', 'Board',
+    function($scope, $stateParams, $location, ModalService, Authentication, Memos, Board){
         $scope.authentication = Authentication;
-        $scope.boardId = $routeParams.boardId;
+        $scope.boardId = $stateParams.boardId;
         $scope.find = function(){
-            $scope.memos = Memos.query({boardId: $routeParams.boardId});
+            $scope.memos = Memos.query({boardId: $stateParams.boardId});
         };
 
         $scope.findOne = function(){
-            $scope.memo = Memos.get({boardId: $routeParams.boardId,
-                                      memoId : $routeParams.memoId});
+            $scope.memo = Memos.get({boardId: $stateParams.boardId,
+                                      memoId : $stateParams.memoId});
         };
 
         $scope.findBoard = function(){ //특정 보드 찾음
             console.log("find in memo");
-            $scope.board = Board.get({boardId : $routeParams.boardId});
+            $scope.board = Board.get({boardId : $stateParams.boardId});
         };
 
         $scope.create = function(){
@@ -25,8 +25,8 @@ angular.module('memo').controller('memoController', ['$scope', '$routeParams', '
                 title : this.title,
                 contents : this.contents
             });
-            memo.$save({boardId: $routeParams.boardId}, function(response){
-                $location.path('/main/' + $routeParams.boardId + '/memo');
+            memo.$save({boardId: $stateParams.boardId}, function(response){
+                $location.path('/main/' + $stateParams.boardId + '/memo');
             }, function(errorResponse){
                $scope.error = errorResponse.data.message;
             });
@@ -34,7 +34,7 @@ angular.module('memo').controller('memoController', ['$scope', '$routeParams', '
 
         $scope.delete = function(memo){
             if(memo){
-                memo.$remove({boardId: $routeParams.boardId},
+                memo.$remove({boardId: $stateParams.boardId},
                     function(){
                     for(var i in $scope.memos){
                         if($scope.memos[i] === memo){
@@ -46,9 +46,9 @@ angular.module('memo').controller('memoController', ['$scope', '$routeParams', '
         };
 
         $scope.update = function(){
-            $scope.memo.$update({boardId: $routeParams.boardId},
+            $scope.memo.$update({boardId: $stateParams.boardId},
                 function(response){
-                $location.path('/main/' + $routeParams.boardId + '/memo');
+                $location.path('/main/' + $stateParams.boardId + '/memo');
             }, function(errorResponse){
                 $scope.error = errorResponse.data.message;
             });

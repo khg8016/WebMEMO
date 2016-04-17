@@ -3,15 +3,19 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$rootScope', '$scope', '$routeParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation',
-    function($rootScope, $scope, $routeParams, $location, ModalService, Authentication, Memos, Board, BoardInformation){
-        $scope.boardId = $routeParams.boardId;
+angular.module('board').controller('boardController', ['$rootScope', '$scope', '$stateParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation',
+    function($rootScope, $scope, $stateParams, $location, ModalService, Authentication, Memos, Board, BoardInformation){
+        $scope.boardId = $stateParams.boardId;
         $scope.authentication = Authentication;
         $scope.boards = {};
+        $scope.memos = {};
         $scope.boardInfo = BoardInformation;
 
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);
+        });
+        $rootScope.$on('$memoCreate', function(event, memo){
+            $scope.memos.push(memo);
         });
 
         $scope.findBoards = function(){ //보드들을 찾음
@@ -19,11 +23,11 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         };
 
         $scope.findMemos = function(){
-            $scope.memos = Memos.query({boardId: $routeParams.boardId});
+            $scope.memos = Memos.query({boardId: $stateParams.boardId});
         };
 
         $scope.findOne = function(){ //특정 보드 찾음
-            $scope.board = Board.get({boardId : $routeParams.boardId}, function(){
+            $scope.board = Board.get({boardId : $stateParams.boardId}, function(){
                 $scope.boardInfo.name = $scope.board.name;
             });
         };
@@ -42,7 +46,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
 
         $scope.deleteMemo = function(memo){
             if(memo){
-                memo.$remove({boardId: $routeParams.boardId},
+                memo.$remove({boardId: $stateParams.boardId},
                     function(){
                         for(var i in $scope.memos){
                             if($scope.memos[i] === memo){
@@ -51,9 +55,9 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                         }
                     });
             } else {
-                $scope.memo.$remove({boardId: $routeParams.boardId},
+                $scope.memo.$remove({boardId: $stateParams.boardId},
                     function (){
-                        $location.path('/main/' + $routeParams.boardId + '/memo');
+                        $location.path('/main/' + $stateParams.boardId + '/memo');
                     });
             }
         };

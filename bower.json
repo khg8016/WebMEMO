@@ -8,6 +8,7 @@
     "bootstrap": "3.3.2",
     "angular-scroll-glue": "~2.0.6",
     "angular-modal-service": "^0.9.10",
-    "jquery": "^2.2.2"
+    "jquery": "^2.2.2",
+    "angular-ui-router": "^0.2.18"
   }
 }

@@ -1,4 +1,4 @@
-<section data-ng-controller="boardController" data-ng-init="findBoards()">
+<section data-ng-init="findBoards()">
     <div data-ng-show="authentication.user">
         <span data-ng-bind="authentication.user.username"></span>
         <a class="btn btn-default" href="/signout">로그아웃</a>
@@ -7,7 +7,7 @@
     <h1>Boards</h1>
     <ul scroll-glue>
         <div data-ng-repeat="board in boards">
-            <a class="btn btn-default" data-ng-href="#!/main/{{board._id}}/memo" data-ng-bind="board.name"></a> <!-- 보드 들어가기 -->
+            <a class="btn btn-default" ui-sref="boardMemo({boardId : board._id})"  data-ng-bind="board.name"></a> <!-- 보드 들어가기 -->
             <span data-ng-show="authentication.user._id == board.creator">
                 <a class="btn btn-default" data-ng-click="delete(board);">X</a>
             </span>
