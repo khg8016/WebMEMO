@@ -20,8 +20,8 @@
                         <h ng-show="signUpForm.password.$valid && !signUpForm.password.$pristine" role="alert">적절한 비밀번호 입니다.</h>
                         <br>
                         <input ng-model="confirm_pw" ng-change="check()" class='form-control' type='password' name='confirm_pw' placeholder='비밀번호 재확인' required autofocus=''>
-                        <h ng-show="password != confirm_pw && confirm_pw.length > 0" role="alert">비밀번호가 일치하지 않습니다.</h>
-                        <h ng-show="password == confirm_pw && confirm_pw.length > 0" role="alert">비밀번호가 일치합니다.</h>
+                        <h ng-show="password != confirm_pw && confirm_pw.length > 0" role="alert">적절하지 않습니다.</h>
+                        <h ng-show="password == confirm_pw && confirm_pw.length > 0" role="alert">적절합니다.</h>
                         <br>
                         <br>
                         <input type="button" class="btn btn-lg btn-primary btn-block" value="가입하기" ng-click="signUp()" ng-disabled="signUpForm.$invalid"/>

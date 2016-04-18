@@ -4,7 +4,7 @@
 angular.module('index').controller('IndexController', ['$scope', 'Authentication', 'ModalService',
     function($scope,Authentication, ModalService){
         $scope.authentication = Authentication;
-        console.log("icinc");
+
        $scope.modalSignIn = function() {
             ModalService.showModal({
                 templateUrl: 'index/views/signin.html',
@@ -22,5 +22,6 @@ angular.module('index').controller('IndexController', ['$scope', 'Authentication
                 modal.element.modal();
             });
         };
+
     }
 ]);

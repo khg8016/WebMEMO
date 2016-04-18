@@ -32,7 +32,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         };
 
         $scope.delete = function(board){// 보드 제거
-            if(board){
+            if(confirm("정말 지우시겠습니까?")){
                 board.$remove( function(){
                     for(var i in $scope.boards){
                         if($scope.boards[i] === board){
@@ -41,33 +41,39 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                     }
                 });
             }
+
         };
 
         $scope.deleteMemo = function(memo){
-            if(memo){
-                memo.$remove({boardId: $stateParams.boardId},
-                    function(){
-                        for(var i in $scope.memos){
-                            if($scope.memos[i] === memo){
-                                $scope.memos.splice(i, 1);
+            if(confirm("정말 지우시겠습니까?")) {
+                if (memo) {
+                    memo.$remove({boardId: $stateParams.boardId},
+                        function () {
+                            for (var i in $scope.memos) {
+                                if ($scope.memos[i] === memo) {
+                                    $scope.memos.splice(i, 1);
+                                }
                             }
-                        }
-                    });
-            } else {
-                $scope.memo.$remove({boardId: $stateParams.boardId},
-                    function (){
-                        $location.path('/main/' + $stateParams.boardId + '/memo');
-                    });
+                        });
+                } /*else {
+                    $scope.memo.$remove({boardId: $stateParams.boardId},
+                        function () {
+                            $location.path('/main/' + $stateParams.boardId + '/memo');
+                        });
+                }*/
             }
         };
 
         $scope.viewCreate = function() {
-            ModalService.showModal({
-                templateUrl: 'board/views/client.board.create.html',
-                controller: "boardModalController"
-            }).then(function(modal) {
-                modal.element.modal();
-            });
+            if(this.boardInfo.count ==0) {
+                this.boardInfo.count++;
+                ModalService.showModal({
+                    templateUrl: 'board/views/client.board.create.html',
+                    controller: "boardModalController"
+                }).then(function(modal) {
+                    modal.element.modal();
+                });
+            }
         };
 
         $scope.viewInfo = function() {
@@ -80,21 +86,29 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         };
 
         $scope.viewAddMember = function() {
-            ModalService.showModal({
-                templateUrl: 'board/views/client.board.addMembers.html',
-                controller: "boardModalController"
-            }).then(function(modal) {
-                modal.element.modal();
-            });
+            if(this.boardInfo.count == 0) {
+                this.boardInfo.count++;
+                ModalService.showModal({
+                    templateUrl: 'board/views/client.board.addMembers.html',
+                    controller: "boardModalController"
+                }).then(function(modal) {
+                    modal.element.modal();
+                });
+            }
+
         };
 
         $scope.viewRename = function() {
-            ModalService.showModal({
-                templateUrl: 'board/views/client.board.rename.html',
-                controller: "boardRenameController"
-            }).then(function(modal) {
-                modal.element.modal();
-            });
+            if(this.boardInfo.count == 0){
+                this.boardInfo.count++;
+                ModalService.showModal({
+                    templateUrl: 'board/views/client.board.rename.html',
+                    controller: "boardRenameController"
+                }).then(function(modal) {
+                    modal.element.modal();
+
+                });
+            }
         };
 
         $scope.viewMemo = function() {

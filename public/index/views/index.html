@@ -1,6 +1,10 @@
 <section ng-controller="IndexController">
 
-    <div data-ng-show="!authentication.user">
+    <div data-ng-show="!authentication.user" id="wrapper">
+        <div>
+            <img src="../../image/fox.png" />
+            <h1> WELCOME!</h1>
+        </div>
         <a href ng-click="modalSignUp()">Sign Up</a>
         <a href ng-click="modalSignIn()">Log in</a>
     </div>

@@ -56,20 +56,26 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
         };
 
         $scope.deleteComment = function(comment){
-            if(comment) {
-                console.log($scope.comments[0] == comment);
-                comment.$remove({boardId: $stateParams.boardId, memoId: $stateParams.memoId, commentId : comment._id},
-                    function () {
-                        for(var i in $scope.comments){
-                            if($scope.comments[i] === comment){
-                                $scope.comments.splice(i, 1);
-                                $scope.commentToggle.splice(i, 1);
+            if(confirm("정말 지우시겠습니까?")) {
+                if (comment) {
+                    console.log($scope.comments[0] == comment);
+                    comment.$remove({
+                            boardId: $stateParams.boardId,
+                            memoId: $stateParams.memoId,
+                            commentId: comment._id
+                        },
+                        function () {
+                            for (var i in $scope.comments) {
+                                if ($scope.comments[i] === comment) {
+                                    $scope.comments.splice(i, 1);
+                                    $scope.commentToggle.splice(i, 1);
+                                }
                             }
+                        }, function () {
+                            console.log("Error");
                         }
-                    }, function () {
-                        console.log("Error");
-                    }
-                );
+                    );
+                }
             }
         };
 

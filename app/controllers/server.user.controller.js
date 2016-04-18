@@ -12,7 +12,7 @@ var getErrorMessage = function(err){ //err은 mongoose error 객체. singup 페�
         switch(err.code){//mongodb index error 처리
             case 11000:
             case 11001:
-                message = 'Username already exists';
+                message = '이미 존재하는 ID 입니다.';
                 break;
             default:
                 message = 'Something went wrong';

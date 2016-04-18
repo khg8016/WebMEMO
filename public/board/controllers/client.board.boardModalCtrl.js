@@ -9,11 +9,13 @@ angular.module('board').controller('boardModalController', ['$rootScope','$scope
         $scope.close1 = function(result) {
             close(result, 100);
             $location.path('/main');
+            this.boardInfo.count--;
         };
 
         $scope.close2 = function(result) {
             close(result, 100);
             $location.path('/main/' + $stateParams.boardId+ "/memo");
+            this.boardInfo.count--;
         };
 
         $scope.create = function(){ //보드 생성
@@ -22,6 +24,7 @@ angular.module('board').controller('boardModalController', ['$rootScope','$scope
             });
 
             board.$save(function(board){
+                $scope.boardInfo.count--;
                 close(100);
                 $rootScope.$emit('$boardCreate', board);
             }, function(errorResponse){
@@ -37,6 +40,7 @@ angular.module('board').controller('boardModalController', ['$rootScope','$scope
             user.$save({boardId : $stateParams.boardId}, function(response){
                 $scope.message = "추가되었습니다.";
                 $scope.username = "";
+                $scope.boardInfo.count--;
             }, function(errorResponse){
                 $scope.message = errorResponse.data.message;
             });

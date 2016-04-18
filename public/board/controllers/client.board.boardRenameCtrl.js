@@ -10,10 +10,12 @@ angular.module('board').controller('boardRenameController', ['$scope', '$locatio
         $scope.close = function(result) {
             close(result, 100);
             $location.path('/main/' + $stateParams.boardId+ "/memo");
+            this.boardInfo.count --;
         };
 
         $scope.update = function(){//보드 이름 바꾸기
             $scope.board.$update(function(board){
+                $scope.boardInfo.count--;
                 close(100);
                 $scope.boardInfo.name = board.name;
             }, function(errorResponse){
