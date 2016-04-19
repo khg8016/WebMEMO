@@ -9,7 +9,8 @@ var express = require('express'),
     passport = require('passport'),
     methodOverride = require('method-override'),
     flash = require('connect-flash'),
-    http = require('http');
+    http = require('http'),
+    multipart  = require('connect-multiparty');
 
 module.exports = function(db){
     var app = express();
@@ -20,6 +21,8 @@ module.exports = function(db){
     } else if (process.env.NODE_ENV === 'production') {
         app.use(compress());
     }
+    app.use(multipart());
+
 
     app.use(bodyParser.urlencoded({
         extended: true
@@ -37,6 +40,7 @@ module.exports = function(db){
 
     app.use(passport.initialize());
     app.use(passport.session());
+
 
     app.set('views', './app/views');
     app.set('view engine', 'jade');

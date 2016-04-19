@@ -26,27 +26,7 @@
                         <strong data-ng-bind="error"></strong>
                     </div>
                 </form>
-                <div>
-                    <p> File Attachment</p>
-                    <div data-ng-repeat="file in files">
-                        <img ngf-thumbnail="file">
-                        <p data-ng-bind="file.name"> </p>
-                        <button type="button" ng-click="deleteFile(file)">-</button>
-                        <br>
-                    </div>
-                    <form name="fileForm" data-ng-submit="fileSubmit()">
-                        <<div ngf-drop="add($file)" ng-model="file" class="drop-box" ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-max-size="20MB" ngf-min-height="100"
-                             ngf-resize="{width: 150, height: 150}">drop</div>
-                        <br>
-                        <button type="button" ngf-select="add($file)" ng-model="file" ngf-multiple="true" ngf-max-size="20MB" ngf-min-height="100"
-                                ngf-resize="{width: 150, height: 150}">Select</button>
-                        <button type="submit">upload</button>
-                    </form><!--
-                    <button type="button" ngf-select="add($file)" multiple="multiple" ngf-max-size="20MB" ngf-min-height="100"
-                         ngf-resize="{width: 150, height: 150}">Upload on file select</button>
-                    <div type="button" ngf-drop="add($file)" class="drop-box" ngf-drag-over-class="'dragover'"ngf-multiple="true" ngf-max-size="20MB" ngf-min-height="100"
-                         ngf-resize="{width: 150, height: 150}">Drop </div>-->
-                </div>
+
             </div>
             <div class="modal-footer">
             </div>

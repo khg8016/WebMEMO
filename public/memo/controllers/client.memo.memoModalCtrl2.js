@@ -13,15 +13,6 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
             $location.path('/main/' + $stateParams.boardId + '/memo');
         };
 
-        $scope.deleteFile = function(file){
-            if(file){
-                for (var i in $scope.files) {
-                    if ($scope.files[i] === file) {
-                        $scope.files.splice(i, 1);
-                    }
-                }
-            }
-        };
 
         $scope.create = function(){
             var memo = new Memos({
@@ -37,6 +28,16 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
             }, function(errorResponse){
                 $scope.error = errorResponse.data.message;
             });
+        };
+
+        $scope.deleteFile = function(file){
+            if(file){
+                for (var i in $scope.files) {
+                    if ($scope.files[i] === file) {
+                        $scope.files.splice(i, 1);
+                    }
+                }
+            }
         };
 
        /* $scope.fileSubmit = function(){
@@ -64,7 +65,7 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
             if (this.files && this.files.length) {
                 for (var i = 0; i < this.files.length; i++) {
                     Upload.upload({
-                        url: 'upload/',
+                        url: '/api/upload/',
                         data: {file: this.files[i]}
                     });
                 }

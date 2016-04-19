@@ -3,14 +3,16 @@
  * Created by Jun on 2016-04-06.
  */
 
-angular.module('memo').controller('memoModalController', ['$scope', '$location', '$stateParams','close', 'Authentication', 'Memos', 'Comments',
-    function($scope, $location, $stateParams, close, Authentication, Memos, Comments) {
+angular.module('memo').controller('memoModalController', ['$scope', '$location', '$stateParams','close', 'Authentication', 'Memos', 'Comments', 'Upload',
+    function($scope, $location, $stateParams, close, Authentication, Memos, Comments, Upload) {
         $scope.authentication = Authentication;
         $scope.memoToggle = true;
         $scope.memo = Memos.get({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
 
         $scope.comments = Comments.query({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
         $scope.commentToggle = new Array();
+
+        $scope.files = new Array();
 
         $scope.toggleEdit = function(){
                 $scope.memoToggle = false;
@@ -95,6 +97,47 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
                 );
             }
 
+        };
+
+         $scope.fileSubmit = function(){
+         if ($scope.fileForm.file.$valid && $scope.file) {
+         $scope.upload($scope.file.name);
+         }
+         };
+
+        // for multiple files:
+        $scope.uploadFiles = function (files) {
+            console.log(files.length);
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    Upload.upload({
+                        url: '/api/files/' + $scope.memo._id,
+                        method : 'POST',
+                        file : files[i]
+                    });
+                }
+
+                // or send them all together for HTML5 browsers:
+                //Upload.upload({ data: {file: this.files}});
+            }
+        };
+
+        $scope.add = function(file){
+            if(file){
+                $scope.files.push(file);
+            }
+            $scope.uploadFiles($scope.files);
+        };
+
+        $scope.deleteFile = function(file){
+            if(file){
+                for (var i in $scope.files) {
+                    if ($scope.files[i] === file) {
+                        $scope.files.splice(i, 1);
+                    }
+
+                }
+            }
         };
 
 

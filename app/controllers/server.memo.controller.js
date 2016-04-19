@@ -4,7 +4,9 @@
 
 var mongoose = require('mongoose'),
     Memo = mongoose.model('Memo'),
-    Board = mongoose.model('Board');
+    Board = mongoose.model('Board'),
+    gridFs = require('../../config/gridFs'),
+    Busboy = require('busboy');
 
 var getErrorMessage = function(err) {
     if (err.errors) {
@@ -86,8 +88,27 @@ module.exports.delete = function(req, res){
     });
 };
 
-module.exports.fileUpload = function(){
+module.exports.fileUpload = function(req, res){
 
+    var memo = req.memo;
+    console.log(req.files.file.type + "fdsfds");
+
+        var opts = {
+            content_type : req.files.file.type
+        };
+        memo.addFile(req.files.file, opts, function(err, result){
+            if(err) console.log(err.message);
+            else res.redirect('/');
+        });
+
+};
+
+module.exports.fileDownload = function(req, res){
+    gridFs.get(req.params.id, function(Err, file){
+        res.setHeader('Content-Type', file.type);
+        res.setHeader('Content-Disposition', 'attachment; filename=' + file.name);
+        file.stream(true).pipe(res);
+    })
 };
 
 module.exports.memoById = function(req, res, next, id){
