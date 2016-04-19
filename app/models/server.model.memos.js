@@ -16,6 +16,10 @@ var memoSchema = new Schema({
         default: '',
         trim : true
     },
+    image : {
+        data : buffer,
+        contentType : String
+    },
     creator : {
         type: Schema.ObjectId,
         ref : 'User'

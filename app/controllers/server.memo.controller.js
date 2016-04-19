@@ -17,8 +17,7 @@ var getErrorMessage = function(err) {
 };
 
 module.exports.create = function(req, res){
-    var memo = new Memo(req.body); // $
-    // 를 통해 post요청을 보내면 그 값들이 req.body에 들어감
+    var memo = new Memo(req.body);
     memo.creator = req.user;
     req.board.memos.push(memo);
 
@@ -85,6 +84,10 @@ module.exports.delete = function(req, res){
             res.json(memo);
         }
     });
+};
+
+module.exports.fileUpload = function(){
+
 };
 
 module.exports.memoById = function(req, res, next, id){
