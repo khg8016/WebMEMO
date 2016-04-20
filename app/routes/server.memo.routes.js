@@ -16,8 +16,9 @@ module.exports = function(app){
         delete(users.requiresLogin, memos.hasAuthorization, memos.delete);
 
     app.route('/api/files/:memoId').
-        post(memos.fileUpload).
-        get(memos.fileDownload);
+        post(memos.fileUpload);
+
+    app.get('/api/file/:fileId', memos.fileDownload);
 
     app.param('boardId', board.boardById);
     app.param('memoId', memos.memoById);

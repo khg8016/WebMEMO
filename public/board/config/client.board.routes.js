@@ -20,7 +20,6 @@ angular.module('board').config(['$stateProvider', '$urlRouterProvider',
             })
             .state('board_memo.view', {
                 url: '/:memoId',
-                controller: 'boardController',
                 onEnter: function (ModalService) {
                     ModalService.showModal({
                         templateUrl: 'memo/views/client.memo.modalView.html',

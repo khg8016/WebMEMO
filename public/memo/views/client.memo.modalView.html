@@ -35,6 +35,10 @@
                         </div>
                     </form>
                 </div>
+                <div data-ng-click="getFiles()">
+                    <p>fdsfdsfdsfsd</p>
+                    <img ngf-thumbnail="file1">
+                </div>
                 <div>
                     <p> File Attachment</p>
                     <div data-ng-repeat="file in files">
@@ -51,9 +55,9 @@
                                 ngf-resize="{width: 150, height: 150}">Select</button>
                         <button type="submit">upload</button>
                     </form>-->
-                    <button type="button" ngf-select="add($file)" multiple="multiple" ngf-max-size="20MB" ngf-min-height="100"
+                    <button type="button" ngf-select="uploadFiles($files)" multiple="multiple" ngf-max-size="20MB" ngf-min-height="100"
                          ngf-resize="{width: 150, height: 150}">Upload on file select</button>
-                    <div type="button" ngf-drop="add($file)" class="drop-box" ngf-drag-over-class="'dragover'"ngf-multiple="true" ngf-max-size="20MB" ngf-min-height="100"
+                    <div type="button" ngf-drop="uploadFiles($files)" class="drop-box" ngf-drag-over-class="'dragover'"ngf-multiple="true" ngf-max-size="20MB" ngf-min-height="100"
                          ngf-resize="{width: 150, height: 150}">Drop </div>
                 </div>
 

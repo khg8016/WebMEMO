@@ -4,7 +4,7 @@
 angular.module('index').controller('modalController', ['$scope', '$location', '$http', '$state','close', 'Authentication',
     function($scope, $location, $http, $state,close, Authentication) {
 
-        $scope.message = Authentication.message;
+        $scope.message = "";
 
         $scope.close = function(result) {
             close(result, 500); // close, but give 500ms for bootstrap to animate
@@ -24,9 +24,10 @@ angular.module('index').controller('modalController', ['$scope', '$location', '$
                 url: 'http://localhost:3000/signup',
                 data: data
             }).success(function (data) {
-                if(data.msg != "")
+                if(data.msg !== "") {
                     $scope.message = data.msg;
-                if(data.msg =="") {
+                }
+                if(data.msg ==="") {
                     window.location = '/webmemo#!/main';
                 }
             }).error(function(data){
@@ -46,9 +47,10 @@ angular.module('index').controller('modalController', ['$scope', '$location', '$
                 url: 'http://localhost:3000/signin',
                 data: data
             }).success(function (data) {
-                if(data.msg != "")
+                if(data.msg !== "") {
                     $scope.message = data.msg;
-                else if(data.msg =="") {
+                }
+                else if(data.msg ==="") {
                     window.location = '/webmemo#!/main';
                 }
             }).error(function(data){

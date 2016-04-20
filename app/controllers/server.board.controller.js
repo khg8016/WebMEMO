@@ -18,7 +18,7 @@ var getErrorMessage = function(err) {
 
 module.exports.renderBoard = function(req, res){
     var message = req.flash('error')[0];
-    console.log("render board");
+
     res.render('board', {
         user : JSON.stringify(req.user) || 'undefined'
     });
@@ -80,8 +80,8 @@ module.exports.update = function(req, res){
 };
 
 module.exports.delete = function(req, res){
-    var boards = req.user.boards;
-    var board = req.board;
+    var boards = req.user.boards,
+        board = req.board;
 
     board.remove(function(err){
         if(err){
@@ -89,7 +89,7 @@ module.exports.delete = function(req, res){
                 message: getErrorMessage(err)
             });
         } else{
-            for(var i in boards){//user의 보드 목록에서도 제거
+            for(var i= 0, len = boards.length; i< len; i++){//user의 보드 목록에서도 제거
                 if(boards[i]._id == board._id) {
                     boards.splice(i, 1);
                 }
@@ -118,7 +118,8 @@ module.exports.delete = function(req, res){
 
 module.exports.addMember = function(req, res){
     var board = req.board;
-    for(var i in board.members){ //보드에 추가하고자 하는 멤버가 이미 있는지 확인
+
+    for(var i= 0, len = board.members.length; i< len; i++){ //보드에 추가하고자 하는 멤버가 이미 있는지 확인
         if(board.members[i].username == req.body.username){
             return res.status(401).send({
                 message: '이미 추가된 유저입니다.'

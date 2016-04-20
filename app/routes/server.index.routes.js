@@ -8,11 +8,6 @@ module.exports = function(app){
     app.get('/', users.index);
 
     app.post('/signup', users.signUp);
- /*  app.post('/signin', passport.authenticate('local', {
-        successRedirect: '/webmemo#!/main',
-        failureRedirect: '/#!/signin',
-        failureFlash: true
-    }));*/
 
     app.post('/signin', function(req, res, next) {
         passport.authenticate('local', function(err, user, info) {
@@ -26,6 +21,12 @@ module.exports = function(app){
     });
 
     app.get('/signout', users.signOut);
+
+    /*  app.post('/signin', passport.authenticate('local', {
+     successRedirect: '/webmemo#!/main',
+     failureRedirect: '/#!/signin',
+     failureFlash: true
+     }));*/
 
 };
 

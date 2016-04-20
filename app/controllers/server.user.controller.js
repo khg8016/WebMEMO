@@ -29,7 +29,6 @@ var getErrorMessage = function(err){ //err은 mongoose error 객체. singup 페�
 
 module.exports.index = function(req, res){
     var message = req.flash('error')[0];
-    console.log("render index");
     res.render('index', {
             user : JSON.stringify(req.user) || 'undefined'
         });
@@ -48,9 +47,8 @@ module.exports.signUp = function(req, res, next){
                 return res.send(200,{'Content-Type' : 'text/html', 'msg' : message});
             }
             req.login(user, function (err1) { //이걸 실행하면 serialze 메서드가 실행되고 serialize에서 사용자 세션(req.user) 생성.passport.authenticate()메서드 사용할 때 자동으로 호출되기도 함.
-                console.log("login");
                 if (err1) {
-                    console.log("login error");
+                    console.log(err1.message);
                     return next(err1);
                 }
                 res.send(200, {msg : ""});

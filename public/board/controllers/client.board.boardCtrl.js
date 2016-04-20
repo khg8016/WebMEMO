@@ -7,8 +7,8 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
     function($rootScope, $scope, $stateParams, $location, ModalService, Authentication, Memos, Board, BoardInformation){
         $scope.authentication = Authentication;
         $scope.boardInfo = BoardInformation;
-        $scope.boards = new Array();
-        $scope.memos = new Array();
+        $scope.boards = [];
+        $scope.memos = [];
 
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);
@@ -34,7 +34,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         $scope.delete = function(board){// 보드 제거
             if(confirm("정말 지우시겠습니까?")){
                 board.$remove( function(){
-                    for(var i in $scope.boards){
+                    for(var i= 0, len = $scope.boards.length; i<len; i++){
                         if($scope.boards[i] === board){
                             $scope.boards.splice(i, 1);
                         }
@@ -49,24 +49,20 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 if (memo) {
                     memo.$remove({boardId: $stateParams.boardId},
                         function () {
-                            for (var i in $scope.memos) {
+                            for (var i= 0, len = $scope.memos.length; i<len; i++) {
                                 if ($scope.memos[i] === memo) {
                                     $scope.memos.splice(i, 1);
                                 }
                             }
-                        });
-                } /*else {
-                    $scope.memo.$remove({boardId: $stateParams.boardId},
-                        function () {
-                            $location.path('/main/' + $stateParams.boardId + '/memo');
-                        });
-                }*/
+                        }
+                    );
+                }
             }
         };
 
         $scope.viewCreate = function() {
-            if(this.boardInfo.count ==0) {
-                this.boardInfo.count++;
+            if(!this.boardInfo.toggle) {
+                this.boardInfo.toggle = true;
                 ModalService.showModal({
                     templateUrl: 'board/views/client.board.create.html',
                     controller: "boardModalController"
@@ -86,8 +82,8 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         };
 
         $scope.viewAddMember = function() {
-            if(this.boardInfo.count == 0) {
-                this.boardInfo.count++;
+            if(!this.boardInfo.toggle) {
+                this.boardInfo.toggle = true;
                 ModalService.showModal({
                     templateUrl: 'board/views/client.board.addMembers.html',
                     controller: "boardModalController"
@@ -99,8 +95,8 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         };
 
         $scope.viewRename = function() {
-            if(this.boardInfo.count == 0){
-                this.boardInfo.count++;
+            if(!this.boardInfo.toggle){
+                this.boardInfo.toggle = true;
                 ModalService.showModal({
                     templateUrl: 'board/views/client.board.rename.html',
                     controller: "boardRenameController"

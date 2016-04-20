@@ -6,7 +6,7 @@ angular.module('board').factory('BoardInformation', ['$stateParams','Board',
     function($stateParams, Board){
         var board = {};
         board.name ="";
-        board.count = 0;
+        board.toggle = false;
         return board;
     }]
 );

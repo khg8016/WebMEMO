@@ -4,9 +4,7 @@
 angular.module('index').factory('Authentication', [
     function(){
         this.user = window.user;
-        this.message = window.message;
         return {
-            user : this.user,
-            message : this.message
+            user : this.user
         };
 }]);

@@ -2,9 +2,8 @@
  * Created by Jun on 2016-03-23.
  */
 var mongoose= require('mongoose'),
-    gridFs = require('../../config/gridFs');
-
-var Schema = mongoose.Schema;
+    gridFs = require('../../config/gridFs'),
+    Schema = mongoose.Schema;
 
 var memoSchema = new Schema({
     title : {
@@ -48,12 +47,11 @@ var memoSchema = new Schema({
 
 memoSchema.methods.addFile = function(file, options, fn){
     var memo = this;
-    console.log("fdasfdsa");
-    gridFs.putFile(file.path, file.name, options, function(err, result){
+
+    return gridFs.putFile(file.path, file.name, options, function(err, result){
         memo.files.push(result);
-        memo.save(fn);
+        return memo.save(fn);
     });
 };
-
 
 mongoose.model('Memo', memoSchema);
