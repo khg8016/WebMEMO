@@ -134,32 +134,77 @@ module.exports.fileUpload = function(req, resp){
 module.exports.fileDownload = function(req, res){
     var memo = req.memo,
         fileId = req.params.fileId,
+        bufs = [],
+        fbuf,
+        base64,
         readstream;
-    console.log(fileId);
+
     for(var i = 0, len = memo.files.length; i < len; i++){
         if(memo.files[i]._id == fileId){
-            console.log(memo.files[i].filename);
-            res.writeHead(200, {'Content-Type': memo.files[i].contentType});
+            console.log("a"+memo.files[i]);
+            console.log("b"+memo.files[i].length);
+            console.log("c"+memo.files[i].filename);
 
-            readstream = gfs.createReadStream({
-                filename: memo.files[i].filename
-            });
+                res.writeHead(200, {'Content-Type': memo.files[i].contentType});
+                readstream = gfs.createReadStream({
+                    filename: memo.files[i].filename
+                });
 
-            readstream.on('data', function(data) {
-                res.write(data);
-            });
+                readstream.on('data', function(data) {
+                    res.write(data);
+                    console.log(data.byteLength);
+                }).on('end', function() {
+                    res.end();
+                });
+                readstream.on('error', function (err) {
+                    console.log('An error occurred!', err);
+                    throw err;
+                });
 
-            readstream.on('end', function() {
-                res.end();
-            });
+            /*readstream = gfs.createReadStream({
+             filename: memo.files[i].filename
+             });
 
-            readstream.on('error', function (err) {
-                console.log('An error occurred!', err);
-                throw err;
-            });
+             readstream.on('data', function(data) {
+             bufs.push(data);
+             //res.write(data);
+             }).on('end', function() {
+             fbuf = Buffer.concat(bufs);
+             base64 = (fbuf.toString('base64'));
+             res.end('"data:image/jpeg;base64,' + base64 + '";');
+             });
+
+             readstream.on('error', function (err) {
+             console.log('An error occurred!', err);
+             throw err;
+             });*/
+
+            /* gfs.files.find({ filename: memo.files[i].filename }).toArray(function (err, files) {
+             res.writeHead(200, {'Content-Type': files[0].contentType});
+             console.log(files[0].length);
+             console.log(files[1].length);
+             readstream = gfs.createReadStream({
+             filename: files[0].filename
+             });
+
+             readstream.on('data', function(data) {
+             res.write(data);
+             console.log(data.byteLength);
+             }).on('end', function() {
+             res.end();
+             });
+             readstream.on('error', function (err) {
+             console.log('An error occurred!', err);
+             throw err;
+             });
+             });*/
+
+
         }
     }
 };
+
+
 
 module.exports.memoById = function(req, res, next, id){
     Memo.findById(id).populate('creator comments.creator').exec(function(err, memo){

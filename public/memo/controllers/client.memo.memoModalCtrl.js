@@ -16,11 +16,8 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
         $scope.fileToggle = false;
 
 
-        $scope.qq = function(){
-
+        $scope.viewFiles = function(){
             $scope.fileToggle = !$scope.fileToggle;
-            console.log("전체파일갯수 " + $scope.memo.files.length);
-
         };
 
         // for multiple files:
@@ -48,8 +45,14 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
                 url: '/api/files/' + $scope.memo._id + '/' + file._id,
                 responseType: "arraybuffer"
             }).success(function (data) {
-                $scope.img = data;
                 console.log(data.byteLength);
+                /*var blob = new Blob([data], {type: 'image/png;charset=utf-8'});
+                var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+                var link = angular.element("#myLink");
+                link.attr({
+                    href : objectUrl,
+                    download : file.filename
+                })[0].click();*/
             }).error(function(data){
                 console.log("in error" + data.msg);
                 $scope.messgae = data.msg;

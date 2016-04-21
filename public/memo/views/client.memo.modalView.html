@@ -37,28 +37,23 @@
                 </div>
 
                 <div >
-                    <a data-ng-click="qq()"> File Attachment</a>
+                    <a data-ng-click="viewFiles()"> File Attachment</a>
                     <div data-ng-show="fileToggle">
                         <div data-ng-repeat="file in memo.files">
                             <!-- <img ngf-thumbnail="file">
                              <p data-ng-bind="file.name"> </p>-->
-                            <a data-ng-click="downloadFile(file)" data-ng-bind="file.filename"> </a>
+                            <a data-ng-click="downloadFile(file)" data-ng-bind="file.filename" target="_blank" id="myLink" download> </a>
                             <button type="button" ng-click="deleteFile(file)">-</button>
                             <br>
                         </div>
                         <br>
-                        <button type="button" ngf-select="uploadFiles($files)" multiple="multiple" ngf-max-size="20MB" ngf-min-height="100"
-                                ngf-resize="{width: 150, height: 150}">Upload on file select</button>
-                        <div type="button" ngf-drop="uploadFiles($files)" class="drop-box" ngf-drag-over-class="'dragover'"ngf-multiple="true" ngf-max-size="20MB" ngf-min-height="100"
-                             ngf-resize="{width: 150, height: 150}">Drop </div>
+                        <button type="button" ngf-select="uploadFiles($files)" multiple="multiple" ngf-max-size="20MB">Upload on file select</button>
+                        <div type="button" ngf-drop="uploadFiles($files)" class="drop-box" ngf-drag-over-class="'dragover'"ngf-multiple="true" ngf-max-size="20MB">Drop </div>
                     </div>
                     <div data-ng-show="progressPercentage">
                         <p> <span data-ng-bind="progressPercentage"></span> %</p>
                     </div>
 
-                </div>
-                <div data-ng-show="img">
-                    <img ng-src="{{img}}"/>
                 </div>
 
                 <br>
