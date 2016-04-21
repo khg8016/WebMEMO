@@ -18,7 +18,9 @@ module.exports = function(app){
     app.route('/api/files/:memoId').
         post(memos.fileUpload);
 
-    app.get('/api/file/:fileId', memos.fileDownload);
+    app.route('/api/files/:memoId/:fileId').
+        get(memos.fileDownload).
+        delete(memos.deleteFile);
 
     app.param('boardId', board.boardById);
     app.param('memoId', memos.memoById);

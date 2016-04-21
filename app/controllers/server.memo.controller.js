@@ -93,7 +93,32 @@ module.exports.delete = function(req, res){
     });
 };
 
-module.exports.fileUpload = function(req, res){
+module.exports.deleteFile = function(req, res){
+    var memo = req.memo,
+        files = memo.files,
+        fileId = req.params.fileId;
+
+    for(var i in files){
+        console.log(files[i]._id + "/" + fileId);
+        console.log(files[i]._id == fileId);
+        if(files[i]._id == fileId) {
+            files.splice(i, 1);
+        }
+    }
+
+    memo.save(function(err){
+        if(err){
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else{
+            res.json(memo);
+        }
+    });
+
+};
+
+module.exports.fileUpload = function(req, resp){
     var memo = req.memo,
         opts = {
             content_type : req.files.file.type
@@ -101,47 +126,39 @@ module.exports.fileUpload = function(req, res){
 
     return memo.addFile(req.files.file, opts, function(err, result){
         if(err) console.log(err.message);
-        return res.json(true);
+        return resp.json(memo);
     });
 
 };
 
 module.exports.fileDownload = function(req, res){
-    console.log(req.params.fileId);
-    return gridFs.get(req.params.fileId,
-        function(Err, file){
-            res.setHeader('Content-Type', file.type);
-            res.setHeader('Content-Disposition', 'attachment; filename=' + file.name);
-            file.stream(true).pipe(res);
-        });
-   /* console.log(req.params.fileId);
-    gfs.files.find({ _id: req.params.fileId }).toArray(function (err, files) {
+    var memo = req.memo,
+        fileId = req.params.fileId,
+        readstream;
+    console.log(fileId);
+    for(var i = 0, len = memo.files.length; i < len; i++){
+        if(memo.files[i]._id == fileId){
+            console.log(memo.files[i].filename);
+            res.writeHead(200, {'Content-Type': memo.files[i].contentType});
 
-        if(files.length===0){
-            return res.status(400).send({
-                message: 'File not found'
+            readstream = gfs.createReadStream({
+                filename: memo.files[i].filename
+            });
+
+            readstream.on('data', function(data) {
+                res.write(data);
+            });
+
+            readstream.on('end', function() {
+                res.end();
+            });
+
+            readstream.on('error', function (err) {
+                console.log('An error occurred!', err);
+                throw err;
             });
         }
-
-        res.writeHead(200, {'Content-Type': files[0].contentType});
-
-        var readstream = gfs.createReadStream({
-            filename: files[0].filename
-        });
-
-        readstream.on('data', function(data) {
-            res.write(data);
-        });
-
-        readstream.on('end', function() {
-            res.end();
-        });
-
-        readstream.on('error', function (err) {
-            console.log('An error occurred!', err);
-            throw err;
-        });
-    });*/
+    }
 };
 
 module.exports.memoById = function(req, res, next, id){

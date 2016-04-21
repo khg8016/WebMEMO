@@ -5,15 +5,74 @@
 
 angular.module('memo').controller('memoModalController', ['$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload',
     function($scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload) {
+
+        $scope.memo = Memos.get({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
+        $scope.comments = Comments.query({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
+
         $scope.authentication = Authentication;
         $scope.memoToggle = true;
-        $scope.memo = Memos.get({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
-
-        $scope.comments = Comments.query({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
         $scope.commentToggle = [];
-
         $scope.files = [];
-        $scope.file1;
+        $scope.fileToggle = false;
+
+
+        $scope.qq = function(){
+
+            $scope.fileToggle = !$scope.fileToggle;
+            console.log("전체파일갯수 " + $scope.memo.files.length);
+
+        };
+
+        // for multiple files:
+        $scope.uploadFiles = function (files) {
+            if (files && files.length) {
+                for (var i = 0, len = files.length; i < len; i++) {
+                    Upload.upload({
+                        url: '/api/files/' + $scope.memo._id,
+                        method : 'POST',
+                        file : files[i]
+                    }).then(function(resp) {
+                        $scope.memo.files = resp.data.files;
+                    }, function (resp) {
+                        console.log('Error status: ' + resp.status);
+                    }, function (evt) {
+                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                    });
+                }
+            }
+        };
+
+        $scope.downloadFile = function(file){
+            $http({
+                method: 'get',
+                url: '/api/files/' + $scope.memo._id + '/' + file._id,
+                responseType: "arraybuffer"
+            }).success(function (data) {
+                $scope.img = data;
+                console.log(data.byteLength);
+            }).error(function(data){
+                console.log("in error" + data.msg);
+                $scope.messgae = data.msg;
+            });
+        };
+
+
+        $scope.deleteFile = function(file){
+            if(file){
+                for (var i= 0, len = $scope.memo.files.length; i < len; i++) {
+                    if ($scope.memo.files[i] === file) {
+                        $scope.memo.files.splice(i, 1);
+                    }
+                }
+                $http({
+                    method: 'DELETE',
+                    url: '/api/files/' + $scope.memo._id + '/'+ file._id
+                }).success(function (data) {
+                }).error(function(data){
+                    console.log("in error" + data.msg);
+                });
+            }
+        };
 
         $scope.update = function(){
             $scope.memo.$update({boardId: $stateParams.boardId},
@@ -81,47 +140,6 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
 
         };
 
-        // for multiple files:
-        $scope.uploadFiles = function (files) {
-            console.log(files.length);
-
-            if (files && files.length) {
-                for (var i = 0, len = files.length; i < len; i++) {
-                    console.log("kk" + i);
-                    $scope.files.push(files[i]);
-                    Upload.upload({
-                        url: '/api/files/' + $scope.memo._id,
-                        method : 'POST',
-                        file : files[i]
-                    });
-                }
-                // or send them all together for HTML5 browsers:
-                //Upload.upload({ data: {file: this.files}});
-            }
-        };
-
-        $scope.getFiles = function(){
-            $http({
-                method: 'get',
-                url: '/api/file/' + $scope.memo.files[0]._id
-            }).success(function (data) {
-                $scope.file1 = data;
-            }).error(function(data){
-                console.log("in error" + data.msg);
-                $scope.messgae = data.msg;
-            });
-        };
-
-
-        $scope.deleteFile = function(file){
-            if(file){
-                for (var i= 0, len = $scope.files.length; i < len; i++) {
-                    if ($scope.files[i] === file) {
-                        $scope.files.splice(i, 1);
-                    }
-                }
-            }
-        };
 
         $scope.toggleEdit = function(){
             $scope.memoToggle = false;
