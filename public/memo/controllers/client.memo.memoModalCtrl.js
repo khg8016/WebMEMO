@@ -23,13 +23,16 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
         // for multiple files:
         $scope.uploadFiles = function (files) {
             if (files && files.length) {
+
+                console.log(files.length);
                 for (var i = 0, len = files.length; i < len; i++) {
+                    console.log(files[i].name);
                     Upload.upload({
                         url: '/api/files/' + $scope.memo._id,
                         method : 'POST',
                         file : files[i]
                     }).then(function(resp) {
-                        $scope.memo.files = resp.data.files;
+                        $scope.memo.files.push(resp.data);
                     }, function (resp) {
                         console.log('Error status: ' + resp.status);
                     }, function (evt) {
@@ -39,26 +42,32 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
             }
         };
 
-        $scope.downloadFile = function(file){
+        $scope.downloadFile = function(file, $index){
             $http({
                 method: 'get',
                 url: '/api/files/' + $scope.memo._id + '/' + file._id,
                 responseType: "arraybuffer"
             }).success(function (data) {
-                console.log(data.byteLength);
-                /*var blob = new Blob([data], {type: 'image/png;charset=utf-8'});
-                var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
-                var link = angular.element("#myLink");
-                link.attr({
-                    href : objectUrl,
-                    download : file.filename
-                })[0].click();*/
+                $scope.download(file, data, $index);
             }).error(function(data){
                 console.log("in error" + data.msg);
                 $scope.messgae = data.msg;
             });
         };
 
+        $scope.download = function(file, data, $index){
+            var blob = new Blob([data], {type: ''+ file.contentType +';charset=utf-8'});
+            var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+            var link = angular.element(".downLoad");
+            link.attr({
+                href : objectUrl,
+                download : file.filename
+            })[$index].click();
+            link.attr({
+                href : "",
+                download : ""
+            });
+        };
 
         $scope.deleteFile = function(file){
             if(file){

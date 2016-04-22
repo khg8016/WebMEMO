@@ -40,9 +40,7 @@
                     <a data-ng-click="viewFiles()"> File Attachment</a>
                     <div data-ng-show="fileToggle">
                         <div data-ng-repeat="file in memo.files">
-                            <!-- <img ngf-thumbnail="file">
-                             <p data-ng-bind="file.name"> </p>-->
-                            <a data-ng-click="downloadFile(file)" data-ng-bind="file.filename" target="_blank" id="myLink" download> </a>
+                            <a data-ng-click="downloadFile(file, $index)" data-ng-bind="file.filename" target="_blank" class="downLoad" download> </a>
                             <button type="button" ng-click="deleteFile(file)">-</button>
                             <br>
                         </div>
