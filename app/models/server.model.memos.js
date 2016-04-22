@@ -34,7 +34,7 @@ var memoSchema = new Schema({
         content : {
             type : String,
             trim : true
-        } ,
+        },
         created : {
             type: Date
         } ,

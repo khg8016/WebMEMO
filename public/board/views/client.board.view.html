@@ -12,15 +12,17 @@
     <a class="btn btn-default" href ng-click="viewAddMember()">add members..</a>
     <a class="btn btn-default" ui-sref="board">Board list</a>
     <h1>Memos</h1>
-    <ul scroll-glue>
+    <div scroll-glue>
         <div data-ng-repeat="memo in memos">
-            <a data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})"></a>
-            <br>
-            <p data-ng-bind="memo.contents"></p>
-            <br>
-            <div data-ng-show="authentication.user._id == memo.creator">
-                <a class="btn btn-default" href data-ng-click="deleteMemo(memo);">지우기</a>
+            <div>
+                <a data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})"></a>
+                <br>
+                <p data-ng-bind="memo.contents"></p>
+                <br>
+                <div data-ng-show="authentication.user._id == memo.creator">
+                    <a class="btn btn-default" href data-ng-click="deleteMemo(memo);">지우기</a>
+                </div>
             </div>
         </div>
-    </ul>
+    </div>
 </section>

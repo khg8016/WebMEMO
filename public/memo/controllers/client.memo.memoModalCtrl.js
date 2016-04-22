@@ -42,7 +42,7 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
             }
         };
 
-        $scope.downloadFile = function(file, $index){
+        $scope.getFileData = function(file, $index){
             $http({
                 method: 'get',
                 url: '/api/files/' + $scope.memo._id + '/' + file._id,
