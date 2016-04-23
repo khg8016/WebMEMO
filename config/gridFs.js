@@ -20,6 +20,7 @@ exports.get = function(id, fn){
 };
 
 exports.putFile = function(path, name, options, fn){
+    console.log("이름" + name);
     console.log(path);
     var writestream = gr_fs.createWriteStream({
         filename: name,

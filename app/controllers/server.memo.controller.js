@@ -122,11 +122,16 @@ module.exports.fileUpload = function(req, resp){
     var memo = req.memo,
         opts = {
             content_type : req.files.file.type
-        };
-
+        },
+        len;
+    if(req.files.file.name === "blob"){
+        req.files.file.name = "image";
+    }
+    console.log(req.files.file.name);
     return memo.addFile(req.files.file, opts, function(err, result){
         if(err) console.log(err.message);
-        var len = result.files.length;
+
+        len = result.files.length;
         return resp.json(result.files[len - 1]);
     });
 
@@ -135,34 +140,70 @@ module.exports.fileUpload = function(req, resp){
 module.exports.fileDownload = function(req, res){
     var memo = req.memo,
         fileId = req.params.fileId,
+        contentType,
         readstream;
 
     for(var i = 0, len = memo.files.length; i < len; i++){
         if(memo.files[i]._id == fileId){
+            contentType = memo.files[i].contentType;
+            res.writeHead(200, {'Content-Type': contentType});
 
-            res.writeHead(200, {'Content-Type': memo.files[i].contentType});
-            readstream = gfs.createReadStream({
-                _id: memo.files[i]._id
-            });
 
-            readstream.on('data', function(data) {
-                res.write(data);
-                console.log(data.byteLength);
-            }).on('end', function() {
-                res.end();
-            });
 
+                readstream = gfs.createReadStream({
+                        _id: memo.files[i]._id
+                    });
+
+                    readstream.on('data', function(data) {
+                        res.write(data);
+                        console.log(data.byteLength);
+                }).on('end', function() {
+                    res.end();
+                });
             readstream.on('error', function (err) {
                 console.log('An error occurred!', err);
                 throw err;
 
             });
-
         }
     }
 };
 
+module.exports.viewFile = function(req, res){
+    var readstream,
+        contentType,
+        fbuf,
+        base64,
+        bufs=[],
+        memo = req.memo,
+        fileId = req.params.fileId;
 
+    for(var i = 0, len = memo.files.length; i < len; i++){
+        if(memo.files[i]._id == fileId){
+            contentType = memo.files[i].contentType;
+            res.writeHead(200, {'Content-Type': contentType});
+
+            readstream = gfs.createReadStream({
+                _id: memo.files[i]._id
+            });
+
+            readstream.on('data', function(data) {
+                bufs.push(data);
+            }).on('end', function() {
+                fbuf = Buffer.concat(bufs);
+                base64 = (fbuf.toString('base64'));
+                res.end( base64);
+            });
+
+            readstream.on('error', function (err) {
+                console.log('An error occurred!', err);
+                throw err;
+            });
+
+        }
+    }
+
+};
 
 module.exports.memoById = function(req, res, next, id){
     Memo.findById(id).populate('creator comments.creator').exec(function(err, memo){
@@ -172,6 +213,7 @@ module.exports.memoById = function(req, res, next, id){
         req.memo = memo;
         next();
     });
+
 };
 
 module.exports.memoList = function(req, res){

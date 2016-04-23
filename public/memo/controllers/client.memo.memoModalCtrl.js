@@ -1,10 +1,9 @@
 /**
-/**
  * Created by Jun on 2016-04-06.
  */
 
-angular.module('memo').controller('memoModalController', ['$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload',
-    function($scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload) {
+angular.module('memo').controller('memoModalController', ['$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload', 'ModalService',
+    function($scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload, ModalService) {
 
         $scope.memo = Memos.get({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
         $scope.comments = Comments.query({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
@@ -15,7 +14,6 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
         $scope.files = [];
         $scope.fileToggle = false;
 
-
         $scope.viewFiles = function(){
             $scope.fileToggle = !$scope.fileToggle;
         };
@@ -24,48 +22,53 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
         $scope.uploadFiles = function (files) {
             if (files && files.length) {
 
-                console.log(files.length);
                 for (var i = 0, len = files.length; i < len; i++) {
-                    console.log(files[i].name);
+                    console.log("이름"+files[i].name);
                     Upload.upload({
                         url: '/api/files/' + $scope.memo._id,
                         method : 'POST',
                         file : files[i]
                     }).then(function(resp) {
+                        console.log(resp);
                         $scope.memo.files.push(resp.data);
                     }, function (resp) {
-                        console.log('Error status: ' + resp.status);
-                    }, function (evt) {
-                        $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    });
-                }
-            }
-        };
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            });
+        }
+    }
+};
 
-        $scope.getFileData = function(file, $index){
-            $http({
-                method: 'get',
-                url: '/api/files/' + $scope.memo._id + '/' + file._id,
-                responseType: "arraybuffer"
-            }).success(function (data) {
-                $scope.download(file, data, $index);
-            }).error(function(data){
-                console.log("in error" + data.msg);
-                $scope.messgae = data.msg;
+$scope.getFileData = function(file, $index){
+    $http({
+        method: 'get',
+        url: '/api/files/' + $scope.memo._id + '/' + file._id,
+        responseType: "arraybuffer"
+    }).success(function (data) {
+        var blob = new Blob([data], {type: ''+ file.contentType +';charset=utf-8'});
+        var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+        var link = angular.element(".downLoad");
+        link.attr({
+            href : objectUrl,
+            download : file.filename
+        })[$index].click();
+        link.attr({
+            href : "",
+            download : ""
+        });
+    }).error(function(data){
+        console.log("in error" + data.msg);
+        $scope.messgae = data.msg;
             });
         };
 
-        $scope.download = function(file, data, $index){
-            var blob = new Blob([data], {type: ''+ file.contentType +';charset=utf-8'});
-            var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
-            var link = angular.element(".downLoad");
-            link.attr({
-                href : objectUrl,
-                download : file.filename
-            })[$index].click();
-            link.attr({
-                href : "",
-                download : ""
+        $scope.viewFile = function() {
+            ModalService.showModal({
+                templateUrl: 'memo/views/client.memo.fileView.html',
+                controller: "fileModalController"
+            }).then(function(modal) {
+                modal.element.modal();
             });
         };
 
@@ -169,7 +172,6 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
             close(result, 100);
             $location.path('/main/' + $stateParams.boardId + '/memo');
         };
-
 
     }
 ]);

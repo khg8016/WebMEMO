@@ -22,6 +22,8 @@ module.exports = function(app){
         get(memos.fileDownload).
         delete(memos.deleteFile);
 
+    app.get('/api/files/:memoId/:fileId/view', memos.viewFile);
+
     app.param('boardId', board.boardById);
     app.param('memoId', memos.memoById);
 };
