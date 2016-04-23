@@ -33,11 +33,11 @@ angular.module('board').controller('boardModalController', ['$rootScope','$scope
         };
 
         $scope.addMember = function(req, res){
-            var user = new Board({
+            var board = new Board({
                 username : this.username
             });
 
-            user.$save({boardId : $stateParams.boardId}, function(response){
+            board.$save({boardId : $stateParams.boardId}, function(){
                 $scope.message = "추가되었습니다.";
                 $scope.username = "";
                 $scope.boardInfo.toggle = false;

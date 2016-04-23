@@ -3,22 +3,17 @@
  */
 
 
-angular.module('memo').controller('fileModalController', ['$scope', '$location', '$stateParams', '$http','close',
-    function($scope, $location, $stateParams, $http, close) {
+angular.module('memo').controller('fileModalController', ['$scope', '$location', '$http','close', 'memo', 'file',
+    function($scope, $location, $http, close, memo, file) {
         $http({
             method: 'get',
-            url: '/api/files/' + $scope.memo._id + '/' + file._id + '/view'
+            url: '/api/files/' + memo._id + '/' + file._id + '/view'
         }).success(function (data) {
             $scope.img = data;
+            $scope.fileName = file.filename;
         }).error(function(data){
             console.log("in error" + data.msg);
-            $scope.messgae = data.msg;
         });
-
-        $scope.close = function(result) {
-            close(result, 100);
-            $location.path('/main/' + $stateParams.boardId + '/memo');
-        };
 
     }]
 );

@@ -1,12 +1,11 @@
 /**
  * Created by Jun on 2016-04-06.
  */
-angular.module('board').controller('boardRenameController', ['$scope', '$location', '$stateParams','close', 'Board', 'BoardInformation',
-    function($scope, $location, $stateParams, close, Board, BoardInformation) {
+angular.module('board').controller('boardRenameController', ['$scope', '$location', '$stateParams','close', 'board', 'BoardInformation',
+    function($scope, $location, $stateParams, close,  board, BoardInformation) {
 
-        $scope.board = Board.get({boardId : $stateParams.boardId});
         $scope.boardInfo = BoardInformation;
-
+        $scope.board = board;
         $scope.close = function(result) {
             close(result, 100);
             $location.path('/main/' + $stateParams.boardId+ "/memo");

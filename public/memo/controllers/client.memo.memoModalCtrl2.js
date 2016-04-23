@@ -20,17 +20,18 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
                 contents : this.contents
             });
 
-            memo.$save({boardId: $stateParams.boardId}, function(memo){
-                $rootScope.$emit('$memoCreate', memo);
-                console.log("fdsafsazzzzz/" + memo._id);
-                if ($scope.form.files.$valid && $scope.files) {
-    $scope.uploadFiles($scope.files, memo._id);
-}
-close(100);
-}, function(errorResponse){
-    $scope.error = errorResponse.data.message;
-});
-};
+            memo.$save({boardId: $stateParams.boardId},
+                function(memo){
+                    $rootScope.$emit('$memoCreate', memo);
+                    console.log("fdsafsazzzzz/" + memo._id);
+                    if ($scope.form.files.$valid && $scope.files) {
+                        $scope.uploadFiles($scope.files, memo._id);
+                    }
+                    close(100);
+                }, function(errorResponse){
+                    $scope.error = errorResponse.data.message;
+                });
+        };
 
 
 $scope.uploadFiles = function (files, memoId) {

@@ -1,15 +1,9 @@
 <div class="modal fade">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">CREATE MEMO</h4>
-            </div>
-            <div class="modal-body">
-                <img ng-src="data:image/png;base64,{{img}}"/>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
+    <div class="modal-dialog">
+        <img ng-src="data:image/png;base64,{{img}}"/>
+        <br>
+        <br>
+        <br>
+        <h2 data-ng-bind="fileName"></h2>
     </div>
 </div>

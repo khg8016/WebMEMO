@@ -38,35 +38,39 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
             });
         }
     }
-};
+    };
 
-$scope.getFileData = function(file, $index){
-    $http({
-        method: 'get',
-        url: '/api/files/' + $scope.memo._id + '/' + file._id,
-        responseType: "arraybuffer"
-    }).success(function (data) {
-        var blob = new Blob([data], {type: ''+ file.contentType +';charset=utf-8'});
-        var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
-        var link = angular.element(".downLoad");
-        link.attr({
-            href : objectUrl,
-            download : file.filename
-        })[$index].click();
-        link.attr({
-            href : "",
-            download : ""
-        });
-    }).error(function(data){
-        console.log("in error" + data.msg);
-        $scope.messgae = data.msg;
+        $scope.downloadFile = function(file, $index){
+            $http({
+                method: 'get',
+                url: '/api/files/' + $scope.memo._id + '/' + file._id,
+                responseType: "arraybuffer"
+            }).success(function (data) {
+                var blob = new Blob([data], {type: ''+ file.contentType +';charset=utf-8'});
+                var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+                var link = angular.element(".downLoad");
+                link.attr({
+                    href : objectUrl,
+                    download : file.filename
+                })[$index].click();
+                link.attr({
+                    href : "",
+                    download : ""
+                });
+            }).error(function(data){
+                console.log("in error" + data.msg);
+                $scope.messgae = data.msg;
             });
         };
 
-        $scope.viewFile = function() {
+        $scope.viewFile = function(file) {
             ModalService.showModal({
                 templateUrl: 'memo/views/client.memo.fileView.html',
-                controller: "fileModalController"
+                controller: "fileModalController",
+                inputs : {
+                    file : file,
+                    memo : $scope.memo
+                }
             }).then(function(modal) {
                 modal.element.modal();
             });

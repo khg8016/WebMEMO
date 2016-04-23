@@ -3,8 +3,8 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$rootScope', '$scope', '$stateParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation',
-    function($rootScope, $scope, $stateParams, $location, ModalService, Authentication, Memos, Board, BoardInformation){
+angular.module('board').controller('boardController', ['$rootScope', '$scope', '$stateParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation', 'Comments',
+    function($rootScope, $scope, $stateParams, $location, ModalService, Authentication, Memos, Board, BoardInformation, Comments){
         $scope.authentication = Authentication;
         $scope.boardInfo = BoardInformation;
         $scope.boards = [];
@@ -75,7 +75,10 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         $scope.viewInfo = function() {
             ModalService.showModal({
                 templateUrl: 'board/views/client.board.info.html',
-                controller: "infoModalController"
+                controller: "infoModalController",
+                inputs : {
+                    board : Board.get({boardId : $stateParams.boardId})
+                }
             }).then(function(modal) {
                 modal.element.modal();
             });
@@ -99,7 +102,10 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 this.boardInfo.toggle = true;
                 ModalService.showModal({
                     templateUrl: 'board/views/client.board.rename.html',
-                    controller: "boardRenameController"
+                    controller: "boardRenameController",
+                    inputs : {
+                        board : $scope.board
+                    }
                 }).then(function(modal) {
                     modal.element.modal();
 
@@ -107,14 +113,6 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
             }
         };
 
-        $scope.viewMemo = function() {
-            ModalService.showModal({
-                templateUrl: 'memo/views/client.memo.modalView.html',
-                controller: "memoModalController"
-            }).then(function(modal) {
-                modal.element.modal();
-            });
-        };
 
         $scope.viewMemoCreate = function() {
             ModalService.showModal({
