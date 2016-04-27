@@ -65,6 +65,7 @@ module.exports.deleteComment = function(req ,res){
     for(var i in comments){
         if(comments[i]._id === commentId) {
             comments.splice(i, 1);
+            break;
         }
     }
 

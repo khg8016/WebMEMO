@@ -4,7 +4,8 @@
 
 var mongoose = require('mongoose'),
     Board = mongoose.model('Board'),
-    User = mongoose.model('User');
+    User = mongoose.model('User'),
+    Memo = mongoose.model('Memo');
 
 var getErrorMessage = function(err) {
     if (err.errors) {
@@ -83,18 +84,30 @@ module.exports.delete = function(req, res){
     var boards = req.user.boards,
         board = req.board;
 
-    board.remove(function(err){
+    for(var i in board.memos){ //보드에 있는 메모 삭제
+        board.memos[i].remove(function(err){
+            if(err){
+                return res.status(400).send({
+                    message: getErrorMessage(err)
+                });
+            }
+        });
+    }
+
+    board.remove(function(err){ //보드 삭제
         if(err){
             return res.status(400).send({
                 message: getErrorMessage(err)
             });
         } else{
-            for(var i= 0, len = boards.length; i< len; i++){//user의 보드 목록에서도 제거
+
+            for(var i= 0, len = boards.length; i< len; i++){
                 if(boards[i]._id == board._id) {
                     boards.splice(i, 1);
+                    break;
                 }
             }
-            User.findOne({_id : req.user._id}, function(err1, user) {
+            User.findOne({_id : req.user._id}, function(err1, user) {//user의 보드 목록에서도 제거
                 if (err1) {
                     return res.status(400).send({
                         message: getErrorMessage(err1)
@@ -111,7 +124,6 @@ module.exports.delete = function(req, res){
                     });
                 }
             });
-            //res.json(board);
         }
     });
 };

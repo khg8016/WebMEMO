@@ -2,8 +2,8 @@
  * Created by Jun on 2016-04-06.
  */
 
-angular.module('memo').controller('memoModalController', ['$rootScope','$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload', 'ModalService',
-    function($rootScope, $scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload, ModalService) {
+angular.module('memo').controller('memoModalController', ['$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload', 'ModalService',
+    function($scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload, ModalService) {
 
         $scope.memo = Memos.get({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
         $scope.comments = Comments.query({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
@@ -13,9 +13,24 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
         $scope.commentToggle = [];
         $scope.files = [];
         $scope.fileToggle = true;
+        //$scope.objectUrl;
 
         $scope.fileList = function(){
             $scope.fileToggle = !$scope.fileToggle;
+            /*for(var i in $scope.memo.files){
+                $http({
+                    method: 'get',
+                    url: '/api/files/' + $stateParams.memoId + '/' + $scope.memo.files[i]._id,
+                    responseType: "arraybuffer"
+                }).success(function (data) {
+                    var blob = new Blob([data], {type: ''+ $scope.memo.files[i].contentType +';charset=utf-8'});
+                    $scope.objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
+
+                }).error(function(data){
+                    console.log("in error" + data.msg);
+                    $scope.messgae = data.msg;
+                });
+            }*/
         };
 
         // for multiple files:
@@ -23,7 +38,6 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
             if (files && files.length) {
 
                 for (var i = 0, len = files.length; i < len; i++) {
-                    console.log("이름"+files[i].name);
                     Upload.upload({
                         url: '/api/files/' + $stateParams.memoId,
                         method : 'POST',
@@ -46,30 +60,17 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
                 url: '/api/files/' + $stateParams.memoId + '/' + file._id,
                 responseType: "arraybuffer"
             }).success(function (data) {
-
                 var blob = new Blob([data], {type: ''+ file.contentType +';charset=utf-8'});
                 var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
                 var link = angular.element(".downLoad");
-                if($rootScope.$$phase == '$digest'){
-                    link.attr({
-                        href : objectUrl,
-                        download : file.filename
-                    })[$index].click();
-                    link.attr({
-                        href : "",
-                        download : ""
-                    });
-                } else {
-
-                    link.attr({
-                        href : objectUrl,
-                        download : file.filename
-                    })[$index].click();
-                    link.attr({
-                        href : "",
-                        download : ""
-                    });
-                }
+                link.attr({
+                    href : objectUrl,
+                    download : file.filename
+                })[$index].click();
+                link.attr({
+                    href : "",
+                    download : ""
+                });
             }).error(function(data){
                 console.log("in error" + data.msg);
                 $scope.messgae = data.msg;
@@ -108,6 +109,7 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
                 for (var i= 0, len = $scope.memo.files.length; i < len; i++) {
                     if ($scope.memo.files[i] === file) {
                         $scope.memo.files.splice(i, 1);
+                        break;
                     }
                 }
                 $http({
@@ -158,6 +160,7 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
                                 if ($scope.comments[i] === comment) {
                                     $scope.comments.splice(i, 1);
                                     $scope.commentToggle.splice(i, 1);
+                                    break;
                                 }
                             }
                         }, function () {
@@ -176,6 +179,7 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
                             if($scope.comments[i] === comment){
                                 $scope.commentToggle[i] = false;
                                 $scope.comments[i] = responseComment;
+                                break;
                             }
                         }
                     }, function () {
@@ -195,6 +199,7 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
             for(var i = 0, len = $scope.comments.length; i<len; i++){
                 if($scope.comments[i] === comment){
                     $scope.commentToggle[i] = true;
+                    break;
                 }
             }
         };

@@ -12,7 +12,7 @@
     <a class="btn btn-default" href ng-click="viewAddMember()">add members..</a>
     <a class="btn btn-default" ui-sref="board">Board list</a>
     <h1>Memos</h1>
-    <div scroll-glue>
+    <ul scroll-glue>
         <div data-ng-repeat="memo in memos">
             <div>
                 <a data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})"></a>
@@ -24,5 +24,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </ul>
 </section>

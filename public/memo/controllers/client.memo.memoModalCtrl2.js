@@ -23,31 +23,36 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
             memo.$save({boardId: $stateParams.boardId},
                 function(memo){
                     $rootScope.$emit('$memoCreate', memo);
-                    if ($scope.form.files.$valid && $scope.files) {
-                        $scope.uploadFiles($scope.files, memo._id);
+                    console.log($scope.fileList.length);
+                    if ($scope.fileList.length) {
+                        $scope.uploadFiles($scope.fileList, memo._id);
+                        console.log("upload");
                     }
                     close(100);
                 }, function(errorResponse){
                     $scope.error = errorResponse.data.message;
-                });
+                }
+            );
         };
 
 
-$scope.uploadFiles = function (files, memoId) {
-    if (files && files.length) {
-        for (var i = 0, len = files.length; i < len; i++) {
-            Upload.upload({
-                url: '/api/files/' + memoId,
-                method : 'POST',
-                file : files[i]
-            }).then(function(resp) {
-            });
-        }
-    }
+        $scope.uploadFiles = function (files, memoId) {
+            console.log(files.length);
+            if (files && files.length) {
+                for (var i = 0, len = files.length; i < len; i++) {
+                    Upload.upload({
+                        url: '/api/files/' + memoId,
+                        method : 'POST',
+                        file : files[i]
+                    }).then(function(resp) {
+                    });
+                }
+            }
 
 };
 
 $scope.add = function(files){
+    console.log("fdsa " + files.length);
     if (files && files.length) {
         for (var i = 0, len = files.length; i < len; i++) {
             $scope.fileList.push(files[i]);

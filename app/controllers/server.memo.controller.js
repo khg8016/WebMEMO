@@ -111,6 +111,7 @@ module.exports.delete = function(req, res){
             for(var i= 0, len = memos.length; i< len; i++){//user의 보드 목록에서도 제거
                 if(memos[i]._id == memo._id) {
                     memos.splice(i, 1);
+                    break;
                 }
             }
             req.board.save(function(err) {
@@ -131,10 +132,9 @@ module.exports.deleteFile = function(req, res){
         fileId = req.params.fileId;
 
     for(var i in files){
-        console.log(files[i]._id + "/" + fileId);
-        console.log(files[i]._id == fileId);
         if(files[i]._id == fileId) {
             files.splice(i, 1);
+            break;
         }
     }
 
@@ -180,8 +180,6 @@ module.exports.fileDownload = function(req, res){
             contentType = memo.files[i].contentType;
             res.writeHead(200, {'Content-Type': contentType});
 
-
-
                 readstream = gfs.createReadStream({
                         _id: memo.files[i]._id
                     });
@@ -195,8 +193,8 @@ module.exports.fileDownload = function(req, res){
             readstream.on('error', function (err) {
                 console.log('An error occurred!', err);
                 throw err;
-
             });
+            break;
         }
     }
 };
@@ -231,7 +229,7 @@ module.exports.viewFile = function(req, res){
                 console.log('An error occurred!', err);
                 throw err;
             });
-
+            break;
         }
     }
 

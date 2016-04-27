@@ -37,6 +37,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                     for(var i= 0, len = $scope.boards.length; i<len; i++){
                         if($scope.boards[i] === board){
                             $scope.boards.splice(i, 1);
+                            break;
                         }
                     }
                 });
@@ -52,6 +53,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                             for (var i= 0, len = $scope.memos.length; i<len; i++) {
                                 if ($scope.memos[i] === memo) {
                                     $scope.memos.splice(i, 1);
+                                    break;
                                 }
                             }
                         }

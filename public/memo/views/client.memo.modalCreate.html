@@ -6,11 +6,14 @@
                 <h4 class="modal-title">CREATE MEMO</h4>
             </div>
             <div class="modal-body">
+                <div data-ng-show="error">
+                    <strong data-ng-bind="error"></strong>
+                </div>
                 <form data-ng-submit="create()" name="form" novalidate>
                     <div>
                         <label for ="title">Title</label>
                         <div>
-                            <input type="text" data-ng-model ="title" id="title" placeholder="Title" required>
+                            <input type="text" data-ng-model ="title" id="title" placeholder="Title" required="">
                         </div>
                     </div>
 
@@ -19,21 +22,23 @@
                         <div>
                             <textarea data-ng-model="contents" id="contents" cols="30" rows="10" placeholder="Contents"></textarea>
                             <div>
-                                <button type="button" ng-model="files" ngf-select="add($files)" name="files" multiple="multiple" ngf-max-size="20MB" ngf-min-height="100"
-                                        ngf-resize="{width: 150, height: 150}">File Select</button>
+                                <button type="button" ngf-select="add($files)" multiple="multiple" ngf-max-size="20MB">File Select</button>
+                            </div>
+                            <div ngf-drop="add($files)" class="drop-box" ngf-drag-over-class="'dragover'"ngf-multiple="true" ngf-max-size="20MB" >
+                                <br>
+                                Drop files here
+                                <br>
+                                <br>
                             </div>
                         </div>
                     </div>
                     <div data-ng-repeat="file in fileList">
-                        <img ngf-thumbnail="file">
+                        <img ngf-src="file" > <!--  thumbnail 로 해도됨. css로 이미지 크기 수정하자-->
                         <p data-ng-bind="file.name"> </p>
                         <br>
                     </div>
                     <div>
-                        <button type="submit">작성하기</button>
-                    </div>
-                    <div data-ng-show="error">
-                        <strong data-ng-bind="error"></strong>
+                        <input type="submit" value="작성하기">
                     </div>
                 </form>
 
