@@ -2,8 +2,8 @@
  * Created by Jun on 2016-04-06.
  */
 
-angular.module('memo').controller('memoModalController', ['$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload', 'ModalService',
-    function($scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload, ModalService) {
+angular.module('memo').controller('memoModalController', ['$rootScope','$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload', 'ModalService',
+    function($rootScope, $scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload, ModalService) {
 
         $scope.memo = Memos.get({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
         $scope.comments = Comments.query({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
@@ -12,9 +12,9 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
         $scope.memoToggle = true;
         $scope.commentToggle = [];
         $scope.files = [];
-        $scope.fileToggle = false;
+        $scope.fileToggle = true;
 
-        $scope.viewFiles = function(){
+        $scope.fileList = function(){
             $scope.fileToggle = !$scope.fileToggle;
         };
 
@@ -25,7 +25,7 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
                 for (var i = 0, len = files.length; i < len; i++) {
                     console.log("이름"+files[i].name);
                     Upload.upload({
-                        url: '/api/files/' + $scope.memo._id,
+                        url: '/api/files/' + $stateParams.memoId,
                         method : 'POST',
                         file : files[i]
                     }).then(function(resp) {
@@ -43,20 +43,33 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
         $scope.downloadFile = function(file, $index){
             $http({
                 method: 'get',
-                url: '/api/files/' + $scope.memo._id + '/' + file._id,
+                url: '/api/files/' + $stateParams.memoId + '/' + file._id,
                 responseType: "arraybuffer"
             }).success(function (data) {
+
                 var blob = new Blob([data], {type: ''+ file.contentType +';charset=utf-8'});
                 var objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
                 var link = angular.element(".downLoad");
-                link.attr({
-                    href : objectUrl,
-                    download : file.filename
-                })[$index].click();
-                link.attr({
-                    href : "",
-                    download : ""
-                });
+                if($rootScope.$$phase == '$digest'){
+                    link.attr({
+                        href : objectUrl,
+                        download : file.filename
+                    })[$index].click();
+                    link.attr({
+                        href : "",
+                        download : ""
+                    });
+                } else {
+
+                    link.attr({
+                        href : objectUrl,
+                        download : file.filename
+                    })[$index].click();
+                    link.attr({
+                        href : "",
+                        download : ""
+                    });
+                }
             }).error(function(data){
                 console.log("in error" + data.msg);
                 $scope.messgae = data.msg;
@@ -66,7 +79,7 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
         $scope.viewFile = function(file) {
             ModalService.showModal({
                 templateUrl: 'memo/views/client.memo.fileView.html',
-                controller: "fileModalController",
+                controller: "fileViewController",
                 inputs : {
                     file : file,
                     memo : $scope.memo
@@ -75,6 +88,20 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
                 modal.element.modal();
             });
         };
+
+
+     /*   $scope.renameFile = function(file) {
+            ModalService.showModal({
+                templateUrl: 'memo/views/client.memo.renameFile.html',
+                controller: "fileRenameController",
+                inputs : {
+                    file : file,
+                    memo : $scope.memo
+                }
+            }).then(function(modal) {
+                modal.element.modal();
+            });
+        };*/
 
         $scope.deleteFile = function(file){
             if(file){
@@ -85,7 +112,7 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
                 }
                 $http({
                     method: 'DELETE',
-                    url: '/api/files/' + $scope.memo._id + '/'+ file._id
+                    url: '/api/files/' + $stateParams.memoId + '/'+ file._id
                 }).success(function (data) {
                 }).error(function(data){
                     console.log("in error" + data.msg);

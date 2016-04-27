@@ -6,6 +6,7 @@ angular.module('board').controller('boardRenameController', ['$scope', '$locatio
 
         $scope.boardInfo = BoardInformation;
         $scope.board = board;
+
         $scope.close = function(result) {
             close(result, 100);
             $location.path('/main/' + $stateParams.boardId+ "/memo");

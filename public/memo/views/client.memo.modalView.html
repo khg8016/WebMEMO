@@ -37,7 +37,7 @@
                 </div>
 
                 <div >
-                    <a data-ng-click="viewFiles()"> File Attachment</a>
+                    <a data-ng-click="fileList()"> File Attachment</a>
                     <div data-ng-show="fileToggle">
                         <div data-ng-repeat="file in memo.files">
                             <a ng-show="file.contentType.substr(0,5) == 'image'" ng-click="viewFile(file)" data-ng-bind="file.filename" > </a>

@@ -1,0 +1,28 @@
+<div class="modal fade" >
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">파일 이름 변경</h4>
+            </div>
+            <div class="modal-body">
+                <form data-ng-submit="update()" novalidate>
+                    <div>
+                        <label for ="name">filename</label>
+                        <div>
+                            <input type="text" data-ng-model ="file.filename" id="name" placeholder="파일명" required>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit">rename</button>
+                    </div>
+                    <div data-ng-show="error">
+                        <strong data-ng-bind="error"></strong>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

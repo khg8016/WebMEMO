@@ -3,7 +3,7 @@
  */
 
 
-angular.module('memo').controller('fileModalController', ['$scope', '$location', '$http','close', 'memo', 'file',
+angular.module('memo').controller('fileViewController', ['$scope', '$location', '$http','close', 'memo', 'file',
     function($scope, $location, $http, close, memo, file) {
         $http({
             method: 'get',

@@ -33,12 +33,12 @@ module.exports.readComments = function(req ,res){
 module.exports.updateComment = function(req ,res){
 
     var memo = req.memo,
-        comment = req.comment,
+        commentId = req.params.commentId,
         comments = memo.comments,
         response_comment;
 
     for(var i= 0, len = comments.length; i< len; i++){
-        if(comments[i].id === comment.id) {
+        if(comments[i].id === commentId) {
             comments[i].content = req.body.content;
             comments[i].created = Date.now();
             response_comment = comments[i];
@@ -59,11 +59,11 @@ module.exports.updateComment = function(req ,res){
 
 module.exports.deleteComment = function(req ,res){
     var memo = req.memo,
-        comment = req.comment,
+        commentId = req.params.commentId,
         comments = memo.comments;
 
     for(var i in comments){
-        if(comments[i]._id === comment._id) {
+        if(comments[i]._id === commentId) {
             comments.splice(i, 1);
         }
     }
@@ -77,15 +77,4 @@ module.exports.deleteComment = function(req ,res){
             res.json(memo);
         }
     });
-};
-
-module.exports.commentById = function(req, res, next, id){
-    var comments = req.memo.comments;
-
-    for(var i= 0, len = comments.length; i< len; i++){
-        if(comments[i].id === id) {
-            req.comment = comments[i];
-        }
-    }
-    next();
 };

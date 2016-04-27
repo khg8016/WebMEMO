@@ -19,6 +19,4 @@ module.exports = function(app){
 
     app.param('boardId', board.boardById);
     app.param('memoId', memos.memoById);
-    app.param('commentId', comment.commentById);
-
 };

@@ -23,7 +23,6 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
             memo.$save({boardId: $stateParams.boardId},
                 function(memo){
                     $rootScope.$emit('$memoCreate', memo);
-                    console.log("fdsafsazzzzz/" + memo._id);
                     if ($scope.form.files.$valid && $scope.files) {
                         $scope.uploadFiles($scope.files, memo._id);
                     }
