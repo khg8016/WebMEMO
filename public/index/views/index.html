@@ -1,12 +1,15 @@
 <section ng-controller="IndexController">
 
-    <div data-ng-show="!authentication.user" id="wrapper">
+    <div id="wrapper" data-ng-show="!authentication.user" >
         <div>
             <img src="../../image/fox.png" />
             <h1> WELCOME!</h1>
         </div>
-        <a href ng-click="modalSignUp()">Sign Up</a>
-        <a href ng-click="modalSignIn()">Log in</a>
+        <br>
+        <div id="sign">
+            <a class="btn btn-success btn-lg btn-group-lg" href ng-click="modalSignUp()">Sign Up</a>
+            <a class="btn btn-success btn-lg btn-group-lg" href ng-click="modalSignIn()">Log in</a>
+        </div>
     </div>
 
 </section>

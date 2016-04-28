@@ -3,7 +3,7 @@
  */
 var mainApplicationModuleNmae = 'webmemo';
 
-var mainApplicationModule = angular.module(mainApplicationModuleNmae, ['ngResource', 'ngFileUpload', 'ui.router', 'index', 'memo', 'board', 'angularModalService']); //모듈 생성 []안에있는거는 커스텀 모듈 혹은 외부모듈
+var mainApplicationModule = angular.module(mainApplicationModuleNmae, ['ngResource', 'ngFileUpload', 'ui.router', 'index', 'memo', 'board', 'angularModalService', 'nsPopover']); //모듈 생성 []안에있는거는 커스텀 모듈 혹은 외부모듈
 
 
 

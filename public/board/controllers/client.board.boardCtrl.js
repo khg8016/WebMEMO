@@ -10,6 +10,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         $scope.boards = [];
         $scope.memos = [];
 
+
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);
         });

@@ -1,18 +1,20 @@
 <section data-ng-init="findBoards()">
-    <div data-ng-show="authentication.user">
-        <span data-ng-bind="authentication.user.username"></span>
-        <a class="btn btn-default" href="/signout">로그아웃</a>
-        <a class="btn btn-default" href ng-click="viewCreate()">보드 생성</a>
+    <div id="header" data-ng-show="authentication.user">
+        <span id="board-create" class="btn btn-sm button-default" ns-popover-template="./client.board.create.html" ns-popover-placement="bottom">보드 생성</span>
+        <span id="board-user">
+            <span data-ng-bind="authentication.user.username"></span>
+            <span class="btn button-default" href="/signout">로그아웃</span>
+        </span>
     </div>
-    <h1>Boards</h1>
     <ul scroll-glue>
-        <div data-ng-repeat="board in boards">
-            <a class="btn btn-default" ui-sref="board_memo({boardId : board._id})"  data-ng-bind="board.name"></a> <!-- 보드 들어가기 -->
-            <span data-ng-show="authentication.user._id == board.creator">
-                <a class="btn btn-default" data-ng-click="delete(board);">X</a>
-            </span>
-            <br>
-        </div>
+        <span data-ng-repeat="board in boards">
+            <li class="board-outer">
+                <div id="deleteBtn" data-ng-show="authentication.user._id == board.creator" data-ng-click="delete(board);" ></div>
+                <div class="button" ui-sref="board_memo({boardId : board._id})">
+                    <h data-ng-bind="board.name"></h> <!-- 보드 들어가기 -->
+                </div>
+            </li>
+        </span>
     </ul>
 
 </section>
