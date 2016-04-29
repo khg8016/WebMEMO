@@ -1,13 +1,13 @@
 <section data-ng-init="findMemos() || findOne()">
     <div class="header" data-ng-show="authentication.user">
-        <span class="board-create">
+        <span class="header-left">
             <a data-ng-bind="boardInfo.name" data-ng-show="authentication.user._id == board.creator._id"
                   ns-popover ns-popover-template="rename-popover" ns-popover-placement="bottom|left" >
             </a>
-            <span class="board-create" data-ng-bind="boardInfo.name" data-ng-show="authentication.user._id != board.creator._id"></span>
+            <span data-ng-bind="boardInfo.name" data-ng-show="authentication.user._id != board.creator._id"></span>
         </span>
 
-        <span class="board-user">
+        <span class="header-right">
             <span data-ng-bind="authentication.user.username"></span>
             <span class="btn btn-sm button-default" href data-ng-click="viewMemoCreate()">Create memos..</span>
             <span class="btn btn-sm button-default" href ng-click="viewInfo()">Board Information</span>
@@ -18,9 +18,9 @@
     </div>
     <ul scroll-glue>
         <span data-ng-repeat="memo in memos">
-            <li class="board-outer">
+            <li class="button-outer">
                 <div id="deleteBtn" data-ng-show="authentication.user._id == memo.creator" data-ng-click="deleteMemo(memo);;" ></div>
-                <div class="button"  ui-sref="board_memo.view({memoId : memo._id})">
+                <div class="button memo"  ui-sref="board_memo.view({memoId : memo._id})">
                     <p data-ng-bind="memo.title"></p>
                     <br>
                     <p data-ng-bind="memo.contents"></p>

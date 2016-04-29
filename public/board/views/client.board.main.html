@@ -1,18 +1,18 @@
 <section data-ng-init="findBoards()">
     <div class="header" data-ng-show="authentication.user">
-        <span class="board-create">
+        <span class="header-left">
           <span class="btn btn-sm button-default" ns-popover ns-popover-template="popover" ns-popover-placement="bottom|left" >보드 생성</span>
         </span>
-        <span class="board-user">
+        <span class="header-right">
             <span data-ng-bind="authentication.user.username"></span>
             <a class="btn button-default" href="/signout">로그아웃</a>
         </span>
     </div>
     <ul scroll-glue>
         <span data-ng-repeat="board in boards">
-            <li class="board-outer">
+            <li class="button-outer">
                 <div id="deleteBtn" data-ng-show="authentication.user._id == board.creator" data-ng-click="delete(board);" ></div>
-                <div class="button" ui-sref="board_memo({boardId : board._id})">
+                <div class="button board" ui-sref="board_memo({boardId : board._id})">
                     <h data-ng-bind="board.name"></h> <!-- 보드 들어가기 -->
                 </div>
             </li>

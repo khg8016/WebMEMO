@@ -2,8 +2,8 @@
  * Created by Jun on 2016-04-06.
  */
 
-angular.module('memo').controller('memoModalController', ['$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload', 'ModalService',
-    function($scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload, ModalService) {
+angular.module('memo').controller('memoModalController', ['$rootScope','$scope', '$location', '$stateParams', '$http','close', 'Authentication', 'Memos', 'Comments', 'Upload', 'ModalService',
+    function($rootScope, $scope, $location, $stateParams, $http, close, Authentication, Memos, Comments, Upload, ModalService) {
 
         $scope.memo = Memos.get({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
         $scope.comments = Comments.query({boardId: $stateParams.boardId, memoId : $stateParams.memoId});
@@ -124,8 +124,11 @@ angular.module('memo').controller('memoModalController', ['$scope', '$location',
 
         $scope.update = function(){
             $scope.memo.$update({boardId: $stateParams.boardId},
-                function(response){
+                function(memo){
+
+                    console.log("3");
                     $scope.memoToggle = true;
+                    $rootScope.$emit('$memoUpdate', memo);
                 }, function(errorResponse){
                     $scope.error = errorResponse.data.message;
                 }

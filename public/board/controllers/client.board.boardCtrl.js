@@ -18,6 +18,17 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
             $scope.memos.push(memo);
         });
 
+        $rootScope.$on('$memoUpdate', function(event, memo){
+            console.log("1");
+            for (var i= 0, len = $scope.memos.length; i<len; i++) {
+                if ($scope.memos[i]._id == memo._id) {
+                    $scope.memos[i] = memo;
+                    console.log("2");
+                    break;
+                }
+            }
+        });
+
         $scope.create = function(){ //보드 생성
             var board = new Board({
                 name : this.boardName
