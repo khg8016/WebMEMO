@@ -1,9 +1,11 @@
 <section data-ng-init="findBoards()">
-    <div id="header" data-ng-show="authentication.user">
-        <span id="board-create" class="btn btn-sm button-default" ns-popover-template="./client.board.create.html" ns-popover-placement="bottom">보드 생성</span>
-        <span id="board-user">
+    <div class="header" data-ng-show="authentication.user">
+        <span class="board-create">
+          <span class="btn btn-sm button-default" ns-popover ns-popover-template="popover" ns-popover-placement="bottom|left" >보드 생성</span>
+        </span>
+        <span class="board-user">
             <span data-ng-bind="authentication.user.username"></span>
-            <span class="btn button-default" href="/signout">로그아웃</span>
+            <a class="btn button-default" href="/signout">로그아웃</a>
         </span>
     </div>
     <ul scroll-glue>
@@ -18,4 +20,27 @@
     </ul>
 
 </section>
+
+
+
+<script type="text/ng-template" id="popover">
+    <div class="triangle"></div>
+    <div class = "popover-outer">
+        <form class="form-signin" name="boardForm" data-ng-submit="create()" novalidate>
+            <div>
+                <label for ="name">Board name</label>
+                <div>
+                    <input class='form-control' type="text" data-ng-model = "boardName" id="name" placeholder="보드명" required>
+                </div>
+            </div>
+            <br>
+            <div>
+                <button class="btn btn-success" type="submit" ng-disabled="boardForm.$invalid">완료</button>
+            </div>
+            <div data-ng-show="error">
+                <strong data-ng-bind="error"></strong>
+            </div>
+        </form>
+    </div>
+</script>
 

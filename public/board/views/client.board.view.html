@@ -1,28 +1,75 @@
 <section data-ng-init="findMemos() || findOne()">
-    <span data-ng-bind="authentication.user.username"></span>
-    <span data-ng-show="authentication.user._id == board.creator._id">
-        <a href ng-click="viewRename()" data-ng-bind="boardInfo.name"></a>
-    </span>
-    <span data-ng-show="authentication.user._id != board.creator._id">
-        <span data-ng-bind="boardInfo.name"></span>
-    </span>
-    <a class="btn btn-default" href="/signout">Log out</a>
-    <a class="btn btn-default" href data-ng-click="viewMemoCreate()">Create memos..</a>
-    <a class="btn btn-default" href ng-click="viewInfo()">Board Information</a>
-    <a class="btn btn-default" href ng-click="viewAddMember()">add members..</a>
-    <a class="btn btn-default" ui-sref="board">Board list</a>
-    <h1>Memos</h1>
+    <div class="header" data-ng-show="authentication.user">
+        <span class="board-create">
+            <a data-ng-bind="boardInfo.name" data-ng-show="authentication.user._id == board.creator._id"
+                  ns-popover ns-popover-template="rename-popover" ns-popover-placement="bottom|left" >
+            </a>
+            <span class="board-create" data-ng-bind="boardInfo.name" data-ng-show="authentication.user._id != board.creator._id"></span>
+        </span>
+
+        <span class="board-user">
+            <span data-ng-bind="authentication.user.username"></span>
+            <span class="btn btn-sm button-default" href data-ng-click="viewMemoCreate()">Create memos..</span>
+            <span class="btn btn-sm button-default" href ng-click="viewInfo()">Board Information</span>
+            <span class="btn btn-sm button-default" ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">add members..</span>
+            <span class="btn btn-sm button-default" ui-sref="board">Board list</span>
+            <a class="btn button-default" href="/signout">로그아웃</a>
+        </span>
+    </div>
     <ul scroll-glue>
-        <div data-ng-repeat="memo in memos">
-            <div>
-                <a data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})"></a>
-                <br>
-                <p data-ng-bind="memo.contents"></p>
-                <br>
-                <div data-ng-show="authentication.user._id == memo.creator">
-                    <a class="btn btn-default" href data-ng-click="deleteMemo(memo);">지우기</a>
+        <span data-ng-repeat="memo in memos">
+            <li class="board-outer">
+                <div id="deleteBtn" data-ng-show="authentication.user._id == memo.creator" data-ng-click="deleteMemo(memo);;" ></div>
+                <div class="button"  ui-sref="board_memo.view({memoId : memo._id})">
+                    <p data-ng-bind="memo.title"></p>
+                    <br>
+                    <p data-ng-bind="memo.contents"></p>
+                    <br>
                 </div>
-            </div>
-        </div>
+            </li>
+        </span>
     </ul>
 </section>
+
+
+<script type="text/ng-template" id="rename-popover">
+    <div class="triangle"></div>
+    <div class = "popover-outer">
+        <form class="form-signin" data-ng-submit="update()" novalidate>
+            <div>
+                <label for ="name">Name</label>
+                <div>
+                    <input class="form-control" type="text" data-ng-model ="board.name" id="name" placeholder="보드명" required>
+                </div>
+            </div>
+            <br>
+            <div>
+                <button class="btn btn-success" type="submit">rename</button>
+            </div>
+            <div data-ng-show="error">
+                <strong data-ng-bind="error"></strong>
+            </div>
+        </form>
+    </div>
+</script>
+
+
+
+<script type="text/ng-template" id="addmember-popover">
+    <div class="triangle"></div>
+    <div class = "popover-outer">
+        <form class="form-signin" name="addForm" data-ng-submit="addMember()" novalidate>
+            <div>
+                <label for ="username">ID</label>
+                <input class="form-control" type="text" data-ng-model="username" id="username" placeholder="추가할 계정" required>
+            </div>
+            <br>
+            <button class="btn btn-success" type="submit" ng-disabled="addForm.$invalid">add</button>
+        </form>
+        <div data-ng-show="message">
+            <strong data-ng-bind="message"></strong>
+        </div>
+    </div>
+</script>
+
+

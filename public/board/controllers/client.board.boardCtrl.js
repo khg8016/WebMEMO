@@ -9,7 +9,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         $scope.boardInfo = BoardInformation;
         $scope.boards = [];
         $scope.memos = [];
-
+        $scope.boardName="";
 
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);
@@ -17,6 +17,44 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         $rootScope.$on('$memoCreate', function(event, memo){
             $scope.memos.push(memo);
         });
+
+        $scope.create = function(){ //보드 생성
+            var board = new Board({
+                name : this.boardName
+            });
+
+            board.$save(function(board){
+
+                console.log("보드명" + $scope.boardName);
+                $scope.boardName = " ";
+                console.log("보드명" + $scope.boardName);
+                $rootScope.$emit('$boardCreate', board);
+            }, function(errorResponse){
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        $scope.update = function(){//보드 이름 바꾸기
+            $scope.board.$update(function(board){
+                $scope.boardInfo.name = board.name;
+            }, function(errorResponse){
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        $scope.addMember = function(req, res){
+            var board = new Board({
+                username : this.username
+            });
+
+            board.$save({boardId : $stateParams.boardId}, function(){
+                $scope.message = "추가되었습니다.";
+                $scope.username = "";
+                $scope.boardInfo.toggle = false;
+            }, function(errorResponse){
+                $scope.message = errorResponse.data.message;
+            });
+        };
 
         $scope.findBoards = function(){ //보드들을 찾음
             $scope.boards = Board.query();
@@ -62,6 +100,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 }
             }
         };
+/*
 
         $scope.viewCreate = function() {
             if(!this.boardInfo.toggle) {
@@ -74,6 +113,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 });
             }
         };
+*/
 
         $scope.viewInfo = function() {
             ModalService.showModal({
@@ -86,6 +126,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 modal.element.modal();
             });
         };
+/*
 
         $scope.viewAddMember = function() {
             if(!this.boardInfo.toggle) {
@@ -99,6 +140,8 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
             }
 
         };
+*/
+/*
 
         $scope.viewRename = function() {
             if(!this.boardInfo.toggle){
@@ -115,6 +158,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 });
             }
         };
+*/
 
 
         $scope.viewMemoCreate = function() {
