@@ -40,10 +40,9 @@
                     <a data-ng-click="fileList()"> File Attachment</a>
                     <div data-ng-show="fileToggle">
                         <div data-ng-repeat="file in memo.files">
-                            <div ng-show="file.contentType.substr(0,5) == 'image'">
-                                <!--<a data-ng-style="{'background-image': 'url(' + objectUrl + ')'}"></a>-->
+                            <span ng-show="file.contentType.substr(0,5) == 'image'">
                                 <a ng-click="viewFile(file)" data-ng-bind="file.filename" > </a>
-                            </div>
+                            </span>
                             <a ng-show="file.contentType.substr(0,5) != 'image'" ng-click="downloadFile(file, $index)" data-ng-bind="file.filename" > </a>
                             <a ng-click="deleteFile(file)">delete</a>
                             <a ng-click="downloadFile(file, $index)" target="_blank" class="downLoad" download="" href="">download</a>

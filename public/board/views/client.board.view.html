@@ -22,9 +22,6 @@
                 <div id="deleteBtn" data-ng-show="authentication.user._id == memo.creator" data-ng-click="deleteMemo(memo);;" ></div>
                 <div class="button memo"  ui-sref="board_memo.view({memoId : memo._id})">
                     <p data-ng-bind="memo.title"></p>
-                    <br>
-                    <p data-ng-bind="memo.contents"></p>
-                    <br>
                 </div>
             </li>
         </span>
