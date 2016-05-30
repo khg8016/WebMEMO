@@ -6,10 +6,6 @@ html
         meta(charset="utf-8")
         link(rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css")
         link(rel="stylesheet" href="/stylesheet/board.css")
-        style(type='text/css').
-            [ng\:cloak], [ng-cloak], .ng-cloak {
-                display: none !important;
-            }
         title WebMemo
     body
         section(ui-view)
@@ -32,7 +28,6 @@ html
         script(type="text/javascript" src="/lib/ng-file-upload/ng-file-upload-shim.min.js")
         script(type="text/javascript" src="/lib/ng-file-upload/ng-file-upload.min.js")
 
-
         script(type="text/javascript" src="/index/index.client.module.js")
         script(type="text/javascript" src="/index/config/index.client.routes.js")
         script(type="text/javascript" src="/index/controllers/index.client.controller.js")
@@ -41,7 +36,6 @@ html
 
         script(type="text/javascript" src="/memo/memo.client.module.js")
         script(type="text/javascript" src="/memo/config/memo.client.routes.js")
-        script(type="text/javascript" src="/memo/controllers/client.memo.memoCtrl.js")
         script(type="text/javascript" src="/memo/controllers/client.memo.memoModalCtrl.js")
         script(type="text/javascript" src="/memo/controllers/client.memo.memoModalCtrl2.js")
         script(type="text/javascript" src="/memo/controllers/client.memo.fileViewCtrl.js")
