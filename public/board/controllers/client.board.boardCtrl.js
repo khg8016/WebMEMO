@@ -111,20 +111,6 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 }
             }
         };
-/*
-
-        $scope.viewCreate = function() {
-            if(!this.boardInfo.toggle) {
-                this.boardInfo.toggle = true;
-                ModalService.showModal({
-                    templateUrl: 'board/views/client.board.create.html',
-                    controller: "boardModalController"
-                }).then(function(modal) {
-                    modal.element.modal();
-                });
-            }
-        };
-*/
 
         $scope.viewInfo = function() {
             ModalService.showModal({

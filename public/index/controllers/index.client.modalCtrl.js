@@ -21,7 +21,7 @@ angular.module('index').controller('modalController', ['$scope', '$location', '$
                 };
                 $http({
                     method: 'POST',
-                    url: 'http://localhost:3000/signup',
+                    url: '/signup',
                     data: data
                 }).success(function (data) {
                     if(data.msg !== "") {
@@ -44,7 +44,7 @@ angular.module('index').controller('modalController', ['$scope', '$location', '$
 
                 $http({
                     method: 'POST',
-                    url: 'http://localhost:3000/signin',
+                    url: '/signin',
                     data: data
                 }).success(function (data) {
                     if(data.msg !== "") {

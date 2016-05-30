@@ -20,19 +20,15 @@ exports.get = function(id, fn){
 };
 
 exports.putFile = function(path, name, options, fn){
-    console.log("이름" + name);
-    console.log(path);
     var writestream = gr_fs.createWriteStream({
         filename: name,
         mode: 'w',
         content_type : options.content_type
     });
+    //file을 올리면 자동으로 appdata에 저장됨. 거기에 있는 걸 읽고 writestream을 통해 data를 써서 file을 만들고 db에 저장함.
+    fs.createReadStream(path).pipe(writestream); //path를 읽고 writestream에 data를 씀.
 
-    fs.createReadStream(path).pipe(writestream); //path를 읽고 path에 맞게 writestream에 쓴다
-
-    writestream.on('close', function (file) { // 끝나면 db에 파일 저장
-
-        fn(null, file);
-
+    writestream.on('close', function (file) { // data를 db에 파일 저장
+        fn(null, file);//db에 저장하는 call-back
     });
 };

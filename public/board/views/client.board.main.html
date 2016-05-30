@@ -13,12 +13,11 @@
             <li class="button-outer">
                 <div id="deleteBtn" data-ng-show="authentication.user._id == board.creator" data-ng-click="delete(board);" ></div>
                 <div class="button board" ui-sref="board_memo({boardId : board._id})">
-                    <h data-ng-bind="board.name"></h> <!-- 보드 들어가기 -->
+                    <h class="text title" data-ng-bind="board.name"></h> <!-- 보드 들어가기 -->
                 </div>
             </li>
         </span>
     </ul>
-
 </section>
 
 

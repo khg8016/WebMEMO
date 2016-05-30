@@ -3,15 +3,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" data-ng-bind="memo.title"></h4>
+                <h4 class="modal-title text" data-ng-bind="memo.title"></h4>
             </div>
             <div class="modal-body">
                 <div data-ng-show="memoToggle">
-                    <h data-ng-bind="memo.contents"></h>
+                    <h class="text" data-ng-bind="memo.contents"></h>
                     <br>
                     <small data-ng-bind="memo.created | date:'medium'"></small>
                     <small data-ng-bind="memo.creator.username"></small>
-                    <a data-ng-show="authentication.user._id == memo.creator._id" class="btn btn-default" href data-ng-click="toggleEdit()">edit</a>
+                    <a data-ng-show="authentication.user._id === memo.creator._id" class="btn btn-default" href data-ng-click="toggleEdit()">edit</a>
                 </div>
                 <div data-ng-show="!memoToggle">
                     <form data-ng-submit="update()" novalidate>
@@ -50,7 +50,7 @@
                             <br>
                         </div>
                         <br>
-                        <button type="button" ngf-select="uploadFiles($files)" multiple="multiple" ngf-max-size="20MB" >Upload on file select</button>
+                        <button type="button" ngf-select="uploadFiles($files)" multiple="multiple" ngf-max-size="100MB" >Upload on file select</button>
                         <div ngf-drop="uploadFiles($files)" class="drop-box" ngf-drag-over-class="'dragover'"ngf-multiple="true" ngf-max-size="20MB">
                             <br>
                             Drop files here

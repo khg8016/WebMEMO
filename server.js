@@ -15,6 +15,6 @@ var passport = passport();
 
 app.listen(3000);
 
-console.log("Server is running at http://localhost:3000/");
+console.log("Server is running at http://54.186.77.165:3000/");
 
 module.exports = app;

@@ -13,6 +13,7 @@ var express = require('express'),
     multipart  = require('connect-multiparty');
 
 module.exports = function(db){
+
     var app = express();
     var server = http.createServer(app);
 
@@ -22,7 +23,6 @@ module.exports = function(db){
         app.use(compress());
     }
     app.use(multipart());
-
 
     app.use(bodyParser.urlencoded({
         extended: true
@@ -41,7 +41,6 @@ module.exports = function(db){
     app.use(passport.initialize());
     app.use(passport.session());
 
-
     app.set('views', './app/views');
     app.set('view engine', 'jade');
 
@@ -50,7 +49,6 @@ module.exports = function(db){
     require('../app/routes/server.index.routes')(app);
     require('../app/routes/server.memo.routes')(app);
     require('../app/routes/server.comment.routes')(app);
-
 
     app.use(express.static('./public'));
 

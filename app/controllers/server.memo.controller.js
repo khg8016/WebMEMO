@@ -159,7 +159,7 @@ module.exports.fileUpload = function(req, resp){
     if(req.files.file.name === "blob"){
         req.files.file.name = "image";
     }
-    console.log(req.files.file.name);
+
     return memo.addFile(req.files.file, opts, function(err, result){
         if(err) console.log(err.message);
 
@@ -180,16 +180,16 @@ module.exports.fileDownload = function(req, res){
             contentType = memo.files[i].contentType;
             res.writeHead(200, {'Content-Type': contentType});
 
-                readstream = gfs.createReadStream({
-                        _id: memo.files[i]._id
-                    });
+            readstream = gfs.createReadStream({
+               _id: memo.files[i]._id
+            });
 
-                    readstream.on('data', function(data) {
-                        res.write(data);
-                        console.log(data.byteLength);
-                }).on('end', function() {
-                    res.end();
-                });
+            readstream.on('data', function(data) {
+                res.write(data);
+                console.log(data.byteLength);
+            }).on('end', function() {
+                res.end();
+            });
             readstream.on('error', function (err) {
                 console.log('An error occurred!', err);
                 throw err;
