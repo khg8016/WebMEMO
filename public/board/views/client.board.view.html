@@ -18,10 +18,10 @@
     </div>
     <ul scroll-glue>
         <span data-ng-repeat="memo in memos" >
-            <div class="button-outer" ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo">
+            <div class="button-outer" ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo" ng-drag-stop="onDragStop($data,$event)">
                 <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo);" >
                 </div>
-                <div class="button memo" ui-sref="board_memo.view({memoId : memo._id})">
+                <div class="button memo" > <!--ui-sref="board_memo.view({memoId : memo._id})"-->
                     <p class="text title" data-ng-bind="memo.title"></p>
                     <span class="text content" data-ng-bind="memo.contents"></span>
                 </div>

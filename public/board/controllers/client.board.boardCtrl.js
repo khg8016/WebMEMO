@@ -3,13 +3,14 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http','$location', 'ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
-    function($rootScope, $scope, $stateParams, $http ,$location, ModalService, Authentication, Memos, Board, BoardInformation){
+angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http', '$state','$location', 'ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
+    function($rootScope, $scope, $stateParams, $http , $state,$location, ModalService, Authentication, Memos, Board, BoardInformation){
         $scope.authentication = Authentication;
         $scope.boardInfo = BoardInformation;
         $scope.boards = [];
         $scope.memos = [];
         $scope.boardName="";
+
 
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);
@@ -146,6 +147,10 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
                 console.log("in error" + data.msg);
             });
 
+        };
+
+        $scope.onDropStop = function(data, event, state){
+            console.log("vcxzvcxzvx");
         };
     }
 ]);

@@ -99,15 +99,14 @@ module.exports.delete = function(req, res){
             return res.status(400).send({
                 message: getErrorMessage(err)
             });
-        } else{
-
+        } else{//user의 보드 목록에서도 제거
             for(var i= 0, len = boards.length; i< len; i++){
                 if(boards[i]._id == board._id) {
                     boards.splice(i, 1);
                     break;
                 }
             }
-            User.findOne({_id : req.user._id}, function(err1, user) {//user의 보드 목록에서도 제거
+            User.findOne({_id : req.user._id}, function(err1, user) {
                 if (err1) {
                     return res.status(400).send({
                         message: getErrorMessage(err1)

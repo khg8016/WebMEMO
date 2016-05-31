@@ -82,6 +82,8 @@ module.exports.updateList = function(req, res){
                 message: getErrorMessage(err)
             });
         }else {
+            console.log(board.memos);
+            console.log(req.board.memos);
             res.json(board);
         }
     });
@@ -99,7 +101,8 @@ module.exports.delete = function(req, res){
             });
         } else{
             for(var i= 0, len = memos.length; i< len; i++){//user의 보드 목록에서도 제거
-                if(memos[i]._id == memo._id) {
+
+                if(memos[i]._id.toString() === memo._id.toString()) {
                     memos.splice(i, 1);
                     break;
                 }
