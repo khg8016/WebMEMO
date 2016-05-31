@@ -3,8 +3,8 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http','$location', 'ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
-    function($rootScope, $scope, $stateParams, $http ,$location, ModalService, Authentication, Memos, Board, BoardInformation){
+angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http', '$state','$location', 'ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
+    function($rootScope, $scope, $stateParams, $http , $state, $location, ModalService, Authentication, Memos, Board, BoardInformation){
         $scope.authentication = Authentication;
         $scope.boardInfo = BoardInformation;
         $scope.boards = [];
@@ -26,6 +26,11 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
                 }
             }
         });
+
+        $scope.go = function(state) {
+            console.log("ggggg")
+            $state.go(state);
+        };
 
         $scope.findBoards = function(){ //보드들을 찾음
             $scope.boards = Board.query();
@@ -140,9 +145,8 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
                 method: 'put',
                 url: '/api/main/' + $scope.board._id + '/memo',
                 data : {index: index, index2: index2}
-            }).success(function (data) {
-                console.log("sssss")
-            }).error(function(data){
+            }).success(function (data) {})
+                .error(function(data){
                 console.log("in error" + data.msg);
             });
 
