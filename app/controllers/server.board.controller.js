@@ -196,7 +196,7 @@ exports.hasAuthorization = function(req, res, next){ //글 작성자가 수정�
 };
 
 module.exports.boardById = function(req, res, next, id){
-    Board.findById(id).populate('creator members memos').exec(function(err, board){
+    Board.findById(id).populate('creator', '_id username').populate('members', 'username').populate('memos').exec(function(err, board){
         if(err) return next(err);
         if(!board) return next(new Error('Failed to load' | id));
 

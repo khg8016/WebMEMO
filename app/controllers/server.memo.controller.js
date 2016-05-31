@@ -52,7 +52,6 @@ module.exports.read = function(req, res){
 module.exports.update = function(req, res){
     var memo = req.memo;
 
-    console.log(req.body);
     memo.title = req.body.title;
     memo.contents = req.body.contents;
 
@@ -66,37 +65,28 @@ module.exports.update = function(req, res){
            }
     });
 };
-/*
 
 
-module.exports.fileUpdate = function(req, res){
-    var memo = req.memo,
-        files = memo.files,
-        fileId = req.params.fileId;
+module.exports.updateList = function(req, res){
+    var memos = req.board.memos,
+        index1 = req.body.index,
+        index2 = req.body.index2,
+        temp = memos[index1];
 
+    memos.set(index1, memos[index2]);
+    memos.set(index2, temp); //set을 안쓰고 직접 대인하면 안먹음 !!! 배열갖고 놀땐 항상 method를 이용..
 
-    console.log("putput");
-    console.log(fileId + "  kkk" + req.body.filename);
-
-    for(var i in files){
-        if(files[i]._id == fileId) {
-            files[i].filename = req.body.filename;
-            console.log(files[i].filename);
-        }
-    }
-
-    memo.save(function(err){
-        if(err){
+    req.board.save(function(err, board) {
+        if (err) {
             return res.status(400).send({
                 message: getErrorMessage(err)
             });
-        } else{
-            console.log("savesave");
-            res.json(memo);
+        }else {
+            res.json(board);
         }
     });
+
 };
-*/
 
 module.exports.delete = function(req, res){
     var memo = req.memo,
@@ -186,7 +176,6 @@ module.exports.fileDownload = function(req, res){
 
             readstream.on('data', function(data) {
                 res.write(data);
-                console.log(data.byteLength);
             }).on('end', function() {
                 res.end();
             });

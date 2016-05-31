@@ -12,28 +12,13 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
         $scope.memoToggle = true;
         $scope.commentToggle = [];
         $scope.files = [];
-        $scope.fileToggle = true;
+        $scope.fileToggle = false;
         //$scope.objectUrl;
 
         $scope.fileList = function(){
             $scope.fileToggle = !$scope.fileToggle;
-            /*for(var i in $scope.memo.files){
-                $http({
-                    method: 'get',
-                    url: '/api/files/' + $stateParams.memoId + '/' + $scope.memo.files[i]._id,
-                    responseType: "arraybuffer"
-                }).success(function (data) {
-                    var blob = new Blob([data], {type: ''+ $scope.memo.files[i].contentType +';charset=utf-8'});
-                    $scope.objectUrl = (window.URL || window.webkitURL).createObjectURL(blob);
-
-                }).error(function(data){
-                    console.log("in error" + data.msg);
-                    $scope.messgae = data.msg;
-                });
-            }*/
         };
 
-        // for multiple files:
         $scope.uploadFiles = function (files) {
             if (files && files.length) {
 
@@ -89,20 +74,6 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
                 modal.element.modal();
             });
         };
-
-
-     /*   $scope.renameFile = function(file) {
-            ModalService.showModal({
-                templateUrl: 'memo/views/client.memo.renameFile.html',
-                controller: "fileRenameController",
-                inputs : {
-                    file : file,
-                    memo : $scope.memo
-                }
-            }).then(function(modal) {
-                modal.element.modal();
-            });
-        };*/
 
         $scope.deleteFile = function(file){
             if(file){

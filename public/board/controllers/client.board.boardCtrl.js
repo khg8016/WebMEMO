@@ -3,8 +3,8 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$rootScope', '$scope', '$stateParams','$location', 'ModalService', 'Authentication', 'Memos', 'Board', 'BoardInformation', 'Comments',
-    function($rootScope, $scope, $stateParams, $location, ModalService, Authentication, Memos, Board, BoardInformation, Comments){
+angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http','$location', 'ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
+    function($rootScope, $scope, $stateParams, $http ,$location, ModalService, Authentication, Memos, Board, BoardInformation){
         $scope.authentication = Authentication;
         $scope.boardInfo = BoardInformation;
         $scope.boards = [];
@@ -19,53 +19,13 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
         });
 
         $rootScope.$on('$memoUpdate', function(event, memo){
-            console.log("1");
             for (var i= 0, len = $scope.memos.length; i<len; i++) {
                 if ($scope.memos[i]._id == memo._id) {
                     $scope.memos[i] = memo;
-                    console.log("2");
                     break;
                 }
             }
         });
-
-        $scope.create = function(){ //보드 생성
-            var board = new Board({
-                name : this.boardName
-            });
-
-            board.$save(function(board){
-
-                console.log("보드명" + $scope.boardName);
-                $scope.boardName = " ";
-                console.log("보드명" + $scope.boardName);
-                $rootScope.$emit('$boardCreate', board);
-            }, function(errorResponse){
-                $scope.error = errorResponse.data.message;
-            });
-        };
-
-        $scope.update = function(){//보드 이름 바꾸기
-            $scope.board.$update(function(board){
-                $scope.boardInfo.name = board.name;
-            }, function(errorResponse){
-                $scope.error = errorResponse.data.message;
-            });
-        };
-
-        $scope.addMember = function(req, res){
-            var board = new Board({
-                username : this.username
-            });
-
-            board.$save({boardId : $stateParams.boardId}, function(){
-                $scope.message = "추가되었습니다.";
-                $scope.username = "";
-                $scope.boardInfo.toggle = false;
-            }, function(errorResponse){
-                $scope.message = errorResponse.data.message;
-            });
-        };
 
         $scope.findBoards = function(){ //보드들을 찾음
             $scope.boards = Board.query();
@@ -81,6 +41,28 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
             });
         };
 
+        $scope.create = function(){ //보드 생성
+            var board = new Board({
+                name : this.boardName
+            });
+
+            board.$save(function(board){
+
+                $scope.boardName = " ";
+                $rootScope.$emit('$boardCreate', board);
+            }, function(errorResponse){
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        $scope.update = function(){//보드 이름 바꾸기
+            $scope.board.$update(function(board){
+                $scope.boardInfo.name = board.name;
+            }, function(errorResponse){
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
         $scope.delete = function(board){// 보드 제거
             if(confirm("정말 지우시겠습니까?")){
                 board.$remove( function(){
@@ -93,6 +75,20 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 });
             }
 
+        };
+
+        $scope.addMember = function(req, res){
+            var board = new Board({
+                username : this.username
+            });
+
+            board.$save({boardId : $stateParams.boardId}, function(){
+                $scope.message = "추가되었습니다.";
+                $scope.username = "";
+                $scope.boardInfo.toggle = false;
+            }, function(errorResponse){
+                $scope.message = errorResponse.data.message;
+            });
         };
 
         $scope.deleteMemo = function(memo){
@@ -123,39 +119,6 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
                 modal.element.modal();
             });
         };
-/*
-
-        $scope.viewAddMember = function() {
-            if(!this.boardInfo.toggle) {
-                this.boardInfo.toggle = true;
-                ModalService.showModal({
-                    templateUrl: 'board/views/client.board.addMembers.html',
-                    controller: "boardModalController"
-                }).then(function(modal) {
-                    modal.element.modal();
-                });
-            }
-
-        };
-*/
-/*
-
-        $scope.viewRename = function() {
-            if(!this.boardInfo.toggle){
-                this.boardInfo.toggle = true;
-                ModalService.showModal({
-                    templateUrl: 'board/views/client.board.rename.html',
-                    controller: "boardRenameController",
-                    inputs : {
-                        board : $scope.board
-                    }
-                }).then(function(modal) {
-                    modal.element.modal();
-
-                });
-            }
-        };
-*/
 
 
         $scope.viewMemoCreate = function() {
@@ -167,9 +130,23 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope', '
             });
         };
 
+        $scope.onDropComplete = function(index, obj, event){
+            var other = $scope.memos[index],
+                index2 = $scope.memos.indexOf(obj);
+            $scope.memos[index] = obj;
+            $scope.memos[index2] = other;
 
+            $http({
+                method: 'put',
+                url: '/api/main/' + $scope.board._id + '/memo',
+                data : {index: index, index2: index2}
+            }).success(function (data) {
+                console.log("sssss")
+            }).error(function(data){
+                console.log("in error" + data.msg);
+            });
 
-
+        };
     }
 ]);
 

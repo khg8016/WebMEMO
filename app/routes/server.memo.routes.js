@@ -8,7 +8,8 @@ var users = require('../controllers/server.user.controller'),
 module.exports = function(app){
     app.route('/api/main/:boardId/memo').
         get(users.requiresLogin, memos.memoList).
-        post(users.requiresLogin, memos.create);
+        post(users.requiresLogin, memos.create).
+        put(memos.updateList);
 
     app.route('/api/main/:boardId/memo/:memoId').
         get(users.requiresLogin, memos.read).
