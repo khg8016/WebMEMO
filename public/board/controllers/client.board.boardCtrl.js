@@ -3,10 +3,11 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http', '$state','$location', 'ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
-    function($rootScope, $scope, $stateParams, $http , $state,$location, ModalService, Authentication, Memos, Board, BoardInformation){
+angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http', '$state', 'ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
+    function($rootScope, $scope, $stateParams, $http , $state, ModalService, Authentication, Memos, Board, BoardInformation){
         $scope.authentication = Authentication;
         $scope.boardInfo = BoardInformation;
+        $scope.boardId= $stateParams.boardId;
         $scope.boards = [];
         $scope.memos = [];
         $scope.boardName="";
@@ -15,6 +16,16 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);
         });
+
+        $rootScope.$on('$boardEdit', function(event, board){
+            for(var i= 0, len = $scope.boards.length; i<len; i++){
+                if($scope.boards[i]._id === board._id){
+                    $scope.boards[i].name = board.name;
+                    break;
+                }
+            }
+        });
+
         $rootScope.$on('$memoCreate', function(event, memo){
             $scope.memos.push(memo);
         });
@@ -29,7 +40,10 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
         });
 
         $scope.findBoards = function(){ //보드들을 찾음
-            $scope.boards = Board.query();
+            $scope.boards = Board.query(function(){
+                if($scope.boards.length == 0) $scope.boardExist=false;
+                else $scope.boardExist=true;
+            });
         };
 
         $scope.findMemos = function(){
@@ -48,7 +62,6 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
             });
 
             board.$save(function(board){
-
                 $scope.boardName = " ";
                 $rootScope.$emit('$boardCreate', board);
             }, function(errorResponse){
@@ -58,7 +71,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
 
         $scope.update = function(){//보드 이름 바꾸기
             $scope.board.$update(function(board){
-                $scope.boardInfo.name = board.name;
+                $rootScope.$emit('$boardEdit', board);
             }, function(errorResponse){
                 $scope.error = errorResponse.data.message;
             });
@@ -74,6 +87,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
                         }
                     }
                 });
+                $state.go('board');
             }
 
         };

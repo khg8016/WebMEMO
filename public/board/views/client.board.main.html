@@ -1,23 +1,61 @@
 <section data-ng-init="findBoards()">
-    <div class="header" data-ng-show="authentication.user">
-        <span class="header-left">
-          <span class="btn btn-sm button-default" ns-popover ns-popover-template="popover" ns-popover-placement="bottom|left" >보드 생성</span>
-        </span>
-        <span class="header-right">
-            <span data-ng-bind="authentication.user.username"></span>
-            <a class="btn button-default" href="/signout">로그아웃</a>
-        </span>
+    <nav class="navbar navbar-inverse navbar-fixed-top" data-ng-show="authentication.user">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" ui-sref="board">WebMemo</a> <!-- 보드 리스트로-->        <!--  <span data-ng-bind="authentication.user.username"></span>   -->
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height:1px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|left" >보드 생성</a></li>
+                    <li><a href="/signout">로그아웃</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-sidebar">
+                    <li data-ng-repeat="board in boards">
+                        <span>
+                            <a  ui-sref="board_memo({boardId : board._id})" data-ng-bind="board.name" ></a>
+                            <a data-ng-show="authentication.user._id == board.creator" ns-popover ns-popover-template="board_popover" ns-popover-placement="bottom|left">★</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div data-ng-show="boardExist">
+                    <p>WELCOME!</p>
+                </div>
+                <div data-ng-show="!boardExist">
+                    <p>Do you want to make a new board? </p>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <ul scroll-glue>
+
+
+    <!--<ul scroll-glue>
         <span data-ng-repeat="board in boards">
             <li class="button-outer">
                 <div id="deleteBtn" data-ng-show="authentication.user._id == board.creator" data-ng-click="delete(board);" ></div>
                 <div class="button board" ui-sref="board_memo({boardId : board._id})">
-                    <h class="text title" data-ng-bind="board.name"></h> <!-- 보드 들어가기 -->
+                    <h class="text title" data-ng-bind="board.name"></h> &lt;!&ndash; 보드 들어가기 &ndash;&gt;
                 </div>
             </li>
         </span>
-    </ul>
+    </ul>-->
 </section>
 
 
@@ -25,9 +63,9 @@
 <script type="text/ng-template" id="popover">
     <div class="triangle"></div>
     <div class = "popover-outer">
-        <form class="form-signin" name="boardForm" data-ng-submit="create()" novalidate>
+        <form class="form-popover" name="boardForm" data-ng-submit="create()" novalidate>
             <div>
-                <label for ="name">Board name</label>
+                <label for="name">Board name</label>
                 <div>
                     <input class='form-control' type="text" data-ng-model = "boardName" id="name" placeholder="보드명" required>
                 </div>
@@ -42,4 +80,56 @@
         </form>
     </div>
 </script>
+
+<script type="text/ng-template" id="board_popover">
+    <div class="triangle"></div>
+    <div class = "popover-outer">
+        <div>
+            <a ns-popover ns-popover-template="rename-popover" ns-popover-placement="right">
+                보드명 변경
+            </a>
+            <br>
+            <a data-ng-click="delete(board)" >보드 삭제</a>
+        </div>
+
+    </div>
+</script>
+<script type="text/ng-template" id="rename-popover">
+    <div class="triangle"></div>
+    <div class = "popover-outer">
+        <form class="form-popover" data-ng-submit="update()" novalidate>
+            <div>
+                <label for ="name">Name</label>
+                <div>
+                    <input class="form-control" type="text" data-ng-model ="board.name" id="name" placeholder="보드명" required>
+                </div>
+            </div>
+            <br>
+            <div>
+                <button class="btn btn-success" type="submit">rename</button>
+            </div>
+            <div data-ng-show="error">
+                <strong data-ng-bind="error"></strong>
+            </div>
+        </form>
+    </div>
+</script>
+
+<script type="text/ng-template" id="addmember-popover">
+    <div class="triangle"></div>
+    <div class = "popover-outer">
+        <form class="form-popover" name="addForm" data-ng-submit="addMember()" novalidate>
+            <div>
+                <label for ="username">ID</label>
+                <input class="form-control" type="text" data-ng-model="username" id="username" placeholder="추가할 계정" required>
+            </div>
+            <br>
+            <button class="btn btn-success" type="submit" ng-disabled="addForm.$invalid">add</button>
+        </form>
+        <div data-ng-show="message">
+            <strong data-ng-bind="message"></strong>
+        </div>
+    </div>
+</script>
+
 
