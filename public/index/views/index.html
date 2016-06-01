@@ -1,14 +1,25 @@
 <section ng-controller="IndexController">
 
-    <div id="wrapper" data-ng-show="!authentication.user" >
-        <div>
-            <img src="../../image/fox.png" />
-            <h1> WELCOME!</h1>
-        </div>
-        <br>
-        <div id="sign">
-            <a class="btn btn-success btn-lg btn-group-lg" href ng-click="modalSignUp()">Sign Up</a>
-            <a class="btn btn-success btn-lg btn-group-lg" href ng-click="modalSignIn()">Log in</a>
+    <div class="site-wrapper" data-ng-show="!authentication.user" >
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div class="inner cover">
+                    <div>
+                        <img src="../../image/fox.png" />
+                        <h1 style="color:#ffffff"> WELCOME!</h1>
+                    </div>
+                    <br>
+                    <div id="sign">
+                        <a class="btn btn-success btn-lg btn-group-lg" href ng-click="modalSignUp()">Sign Up</a>
+                        <a class="btn btn-success btn-lg btn-group-lg" href ng-click="modalSignIn()">Log in</a>
+                    </div>
+                </div>
+                <div class="mastfoot">
+                    <div class="inner">
+                        <p>92encanto@gmail.com</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
