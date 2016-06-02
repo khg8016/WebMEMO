@@ -95,6 +95,7 @@ body {
     border: 1px solid transparent;
     border-radius: 4px;
     border-color: #ccc;
+    z-index: 2000;
 }
 
 .form-popover {

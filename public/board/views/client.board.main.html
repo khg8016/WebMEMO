@@ -27,7 +27,7 @@
                 <ul class="nav nav-sidebar">
                     <li data-ng-repeat="board in boards">
                         <span>
-                            <a  ui-sref="board_memo({boardId : board._id})" data-ng-bind="board.name" ></a>
+                            <a ui-sref="board_memo({boardId : board._id})" data-ng-bind="board.name" ></a>
                             <a data-ng-show="authentication.user._id == board.creator" ns-popover ns-popover-template="board_popover" ns-popover-placement="bottom|left">★</a>
                         </span>
                     </li>

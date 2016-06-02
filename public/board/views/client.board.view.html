@@ -42,7 +42,7 @@
                             <div class="button-outer" ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo" ng-drag-stop="onDragStop($data,$event)">
                                 <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo);" >
                                 </div>
-                                <div class="button memo" > <!--ui-sref="board_memo.view({memoId : memo._id})"-->
+                                <div class="button memo" ui-sref="board_memo.view({memoId : memo._id})" > <!--ui-sref="board_memo.view({memoId : memo._id})"-->
                                     <p class="text title" data-ng-bind="memo.title"></p>
                                     <span class="text content" data-ng-bind="memo.contents"></span>
                                 </div>
@@ -97,15 +97,12 @@
             <div>
                 <label for ="name">Name</label>
                 <div>
-                    <input class="form-control" type="text" data-ng-model ="board.name" id="name" placeholder="보드명" required>
+                    <input class="form-control" type="text" id="name" placeholder="보드명" required>
                 </div>
             </div>
             <br>
             <div>
                 <button class="btn btn-success" type="submit">rename</button>
-            </div>
-            <div data-ng-show="error">
-                <strong data-ng-bind="error"></strong>
             </div>
         </form>
     </div>

@@ -96,8 +96,6 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
         $scope.update = function(){
             $scope.memo.$update({boardId: $stateParams.boardId},
                 function(memo){
-
-                    console.log("3");
                     $scope.memoToggle = true;
                     $rootScope.$emit('$memoUpdate', memo);
                 }, function(errorResponse){
