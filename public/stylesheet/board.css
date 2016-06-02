@@ -14,6 +14,30 @@ body {
 .sidebar {
     display: none;
 }
+.sidebar .boardList {
+    padding:10px;
+    font-size: 16px;
+}
+
+.sidebar .boardList:hover {
+    background-color: #bbffbb;
+}
+.sidebar .boardList .boardName {
+    padding-right: 20px;
+
+    cursor: pointer;
+}
+
+.sidebar .boardList .deleteIcon{
+    float:right;
+    cursor: pointer;
+}
+
+.sidebar .boardList .boardName:hover,
+.sidebar .boardList .deleteIcon:hover{
+    color: rgb(255,255,255);
+}
+
 @media (min-width: 768px) {
     .sidebar {
         position: fixed;

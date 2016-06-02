@@ -14,7 +14,7 @@
 
             <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height:1px;">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|left" >보드 생성</a></li>
+                    <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|right" >보드 생성</a></li>
                     <li><a href="/signout">로그아웃</a></li>
                 </ul>
             </div>
@@ -25,11 +25,11 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li data-ng-repeat="board in boards">
-                        <span>
-                            <a ui-sref="board_memo({boardId : board._id})" data-ng-bind="board.name" ></a>
-                            <a data-ng-show="authentication.user._id === board.creator || authentication.user._id === board.creator._id" ns-popover ns-popover-template="board_popover" ns-popover-placement="right">★</a>
+                    <li class="boardList" data-ng-repeat="board in boards" >
+                        <span ui-sref="board_memo({boardId : board._id})">
+                            <small class="boardName"  data-ng-bind="board.name" ></small>
                         </span>
+                        <small class="deleteIcon" data-ng-show="authentication.user._id === board.creator || authentication.user._id === board.creator._id" ns-popover ns-popover-template="board_popover" ns-popover-placement="right">★</small>
                     </li>
                 </ul>
             </div>
@@ -83,6 +83,7 @@
 
     </div>
 </script>
+
 <script type="text/ng-template" id="rename-popover">
     <div class="triangle"></div>
     <div class = "popover-outer">
