@@ -30,7 +30,7 @@
                     <li data-ng-repeat="board in boards">
                         <span>
                             <a  ui-sref="board_memo({boardId : board._id})" data-ng-bind="board.name" ></a>
-                            <a data-ng-show="authentication.user._id == board.creator" ns-popover ns-popover-template="board_popover" ns-popover-placement="right">★</a>
+                            <a data-ng-show="authentication.user._id === board.creator || authentication.user._id === board.creator._id" ns-popover ns-popover-template="board_popover" ns-popover-placement="right">★</a>
                         </span>
                     </li>
                 </ul>
@@ -42,7 +42,7 @@
                             <div class="button-outer" ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo" ng-drag-stop="onDragStop($data,$event)">
                                 <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo);" >
                                 </div>
-                                <div class="button memo" ui-sref="board_memo.view({memoId : memo._id})" > <!--ui-sref="board_memo.view({memoId : memo._id})"-->
+                                <div class="button memo" ui-sref="board_memo.view({memoId : memo._id})" >
                                     <p class="text title" data-ng-bind="memo.title"></p>
                                     <span class="text content" data-ng-bind="memo.contents"></span>
                                 </div>
@@ -93,11 +93,11 @@
 <script type="text/ng-template" id="rename-popover">
     <div class="triangle"></div>
     <div class = "popover-outer">
-        <form class="form-popover" data-ng-submit="update()" novalidate>
+        <form class="form-popover" data-ng-submit="update(board)" novalidate>
             <div>
-                <label for ="name">Name</label>
+                <label for ="newName">Name</label>
                 <div>
-                    <input class="form-control" type="text" id="name" placeholder="보드명" required>
+                    <input type="text" data-ng-model="board.name" id="newName" placeholder="보드명" required>
                 </div>
             </div>
             <br>

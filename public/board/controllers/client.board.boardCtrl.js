@@ -69,8 +69,8 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
             });
         };
 
-        $scope.update = function(){//보드 이름 바꾸기
-            $scope.board.$update(function(board){
+        $scope.update = function(board){//보드 이름 바꾸기
+            board.$update(function(board){
                 $rootScope.$emit('$boardEdit', board);
             }, function(errorResponse){
                 $scope.error = errorResponse.data.message;

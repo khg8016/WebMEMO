@@ -68,7 +68,7 @@ module.exports.read = function(req, res){
 module.exports.update = function(req, res){
     var board = req.board;
     board.name = req.body.name;
-    console.log(req.body.name + "vcszvzx");
+    console.log(req.body.name);
     board.save(function(err){
         if(err){
             return res.status(400).send({

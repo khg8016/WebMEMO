@@ -84,7 +84,7 @@
                         <small data-ng-bind="comment.created  | date:'medium'"></small>
                         <div data-ng-show="authentication.user._id == comment.creator._id">
                             <a class="btn btn-default" href data-ng-click="commentToggleEdit(comment)">수정</a>
-                            <a class="btn btn-default" href data-ng-click="deleteComment(comment);">X</a>
+                            <a class="btn btn-default" href data-ng-click="deleteComment(comment)">X</a>
                         </div>
                     </div>
                     <div data-ng-show="commentToggle[$index]">

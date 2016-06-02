@@ -42,6 +42,7 @@ module.exports.updateComment = function(req ,res){
             comments[i].content = req.body.content;
             comments[i].created = Date.now();
             response_comment = comments[i];
+            break;
         }
     }
 
@@ -59,12 +60,13 @@ module.exports.updateComment = function(req ,res){
 
 module.exports.deleteComment = function(req ,res){
     var memo = req.memo,
-        commentId = req.params.commentId,
+        commentId = req.params.commentId.toString(),
         comments = memo.comments;
-
+    console.log("321431");
     for(var i in comments){
-        if(comments[i]._id === commentId) {
+        if(comments[i]._id.toString() === commentId) {
             comments.splice(i, 1);
+            console.log("vcxzvzaaa");
             break;
         }
     }

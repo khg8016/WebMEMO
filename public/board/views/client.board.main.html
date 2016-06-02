@@ -28,7 +28,7 @@
                     <li data-ng-repeat="board in boards">
                         <span>
                             <a ui-sref="board_memo({boardId : board._id})" data-ng-bind="board.name" ></a>
-                            <a data-ng-show="authentication.user._id == board.creator" ns-popover ns-popover-template="board_popover" ns-popover-placement="bottom|left">★</a>
+                            <a data-ng-show="authentication.user._id === board.creator || authentication.user._id === board.creator._id" ns-popover ns-popover-template="board_popover" ns-popover-placement="right">★</a>
                         </span>
                     </li>
                 </ul>
@@ -45,17 +45,6 @@
 
     </div>
 
-
-    <!--<ul scroll-glue>
-        <span data-ng-repeat="board in boards">
-            <li class="button-outer">
-                <div id="deleteBtn" data-ng-show="authentication.user._id == board.creator" data-ng-click="delete(board);" ></div>
-                <div class="button board" ui-sref="board_memo({boardId : board._id})">
-                    <h class="text title" data-ng-bind="board.name"></h> &lt;!&ndash; 보드 들어가기 &ndash;&gt;
-                </div>
-            </li>
-        </span>
-    </ul>-->
 </section>
 
 
@@ -97,19 +86,16 @@
 <script type="text/ng-template" id="rename-popover">
     <div class="triangle"></div>
     <div class = "popover-outer">
-        <form class="form-popover" data-ng-submit="update()" novalidate>
+        <form class="form-popover" data-ng-submit="update(board)" novalidate>
             <div>
-                <label for ="name">Name</label>
+                <label for ="newName">Name</label>
                 <div>
-                    <input class="form-control" type="text" data-ng-model ="board.name" id="name" placeholder="보드명" required>
+                    <input type="text" data-ng-model="board.name" id="newName" placeholder="보드명" required>
                 </div>
             </div>
             <br>
             <div>
                 <button class="btn btn-success" type="submit">rename</button>
-            </div>
-            <div data-ng-show="error">
-                <strong data-ng-bind="error"></strong>
             </div>
         </form>
     </div>
