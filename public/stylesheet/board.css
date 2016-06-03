@@ -20,22 +20,24 @@ body {
 }
 
 .sidebar .boardList:hover {
-    background-color: #bbffbb;
-}
-.sidebar .boardList .boardName {
-    padding-right: 20px;
-
-    cursor: pointer;
+    background-color: #64B5F6;
 }
 
 .sidebar .boardList .deleteIcon{
     float:right;
     cursor: pointer;
+    content:url(../image/setting.png);
+
 }
 
 .sidebar .boardList .boardName:hover,
 .sidebar .boardList .deleteIcon:hover{
     color: rgb(255,255,255);
+}
+.sidebar .boardList >span > small {
+    font-weight: bold;
+    padding-right: 20px;
+    cursor: pointer;
 }
 
 @media (min-width: 768px) {
@@ -89,21 +91,6 @@ body {
  * Placeholder dashboard ideas
  */
 
-.placeholders {
-    margin-bottom: 30px;
-    text-align: center;
-}
-.placeholders h4 {
-    margin-bottom: 0;
-}
-.placeholder {
-    margin-bottom: 20px;
-}
-.placeholder img {
-    display: inline-block;
-    border-radius: 50%;
-}
-
 .button-default {
     border-radius: 5px;
     background-color: #5cb85c;
@@ -119,9 +106,49 @@ body {
     border: 1px solid transparent;
     border-radius: 4px;
     border-color: #ccc;
-    z-index: 2000;
+    z-index: 1100;
 }
 
+.popover-board {
+    position: absolute;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: center;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+}
+
+.popover-board .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.popover-board > li > a {
+    display: block;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+
+.popover-board > li > a:hover,
+.popover-board > li > a:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
 .form-popover {
     max-width: 330px;
     padding: 15px;
@@ -131,6 +158,8 @@ body {
 
 
 .button-outer{
+    width: 150px;
+    height: 250px;
     display: inline-block;
     padding: 10px 10px;
     margin: 20px;
@@ -144,6 +173,9 @@ body {
 }
 
 .button {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffcc;
     display: inline-block;
     font-size: 20px;
     font-weight: normal;
@@ -183,6 +215,7 @@ body {
 
 .title {
     margint-top: 2px;
+    float: left;
     font-weight: bold;
     -webkit-line-clamp: 2;
 }
@@ -191,19 +224,6 @@ body {
     margint-top: 3px;
     -webkit-line-clamp: 7;
 }
-.board{
-    width: 260px;
-    height: 130px;
-    background-color: #ffffff;
-    border-color: #000000;
-    border: 3px solid;
-}
-.memo{
-    width: 150px;
-    height: 250px;
-    background-color: #ffffcc;
-}
-
 .button-default {
     border-radius: 5px;
     background-color: #5cb85c;
@@ -220,15 +240,12 @@ body {
 }
 
 #deleteBtn{
-    position : absolute;
-    text-align: right;
-    content:url(../image/delete1.png);
+    float:right;
+    z-index: 1000;
+    content:url(../image/delete.png);
 }
-
-#deleteBtn:hover{
-    position : absolute;
-    text-align: right;
-    content:url(../image/delete2.png);
+#deleteBtn2{
+    content:url(../image/delete.png);
 }
 
 .image-thumbnail{

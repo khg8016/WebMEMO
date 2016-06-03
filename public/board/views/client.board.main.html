@@ -3,21 +3,15 @@
         <div class="container-fluid">
 
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" ui-sref="board">WebMemo</a> <!-- 보드 리스트로-->        <!--  <span data-ng-bind="authentication.user.username"></span>   -->
             </div>
 
-            <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height:1px;">
+
                 <ul class="nav navbar-nav navbar-right">
                     <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|right" >보드 생성</a></li>
                     <li><a href="/signout">로그아웃</a></li>
                 </ul>
-            </div>
+
 
         </div>
     </nav>
@@ -72,15 +66,12 @@
 
 <script type="text/ng-template" id="board_popover">
     <div class="triangle"></div>
-    <div class = "popover-outer">
-        <div>
-            <a ns-popover ns-popover-template="rename-popover" ns-popover-placement="right">
+    <div class = "popover-board">
+            <li><a ns-popover ns-popover-template="rename-popover" ns-popover-placement="right">
                 보드명 변경
-            </a>
-            <br>
-            <a data-ng-click="delete(board)" >보드 삭제</a>
-        </div>
-
+            </a></li>
+            <div class="divider"></div>
+            <li><a data-ng-click="delete(board)" >보드 삭제</a></li>
     </div>
 </script>
 

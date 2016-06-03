@@ -164,16 +164,16 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
 
         $scope.setColor = function(id){
             console.log(id);
-            var el = angular.element('.11');
+            var el = angular.element('#11');
             console.log(""+el.html());
-            if(id=="2번"){
+            /*if(){
                 console.log("aa");
                 el.css("color", "#ffffff");
             }
             else{
                 console.log("bb");
                 el.css("color", "##ff00ff");
-            }
+            }*/
         }
     }
 ]);

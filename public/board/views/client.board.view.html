@@ -2,24 +2,13 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" data-ng-show="authentication.user">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" ui-sref="board">WebMemo</a> <!-- 보드 리스트로-->        <!--  <span data-ng-bind="authentication.user.username"></span>   -->
             </div>
 
-            <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height:1px;">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|right" >보드 생성</a></li>
-                    <!--<li><a href data-ng-click="viewMemoCreate()">Create memos..</a></li>
-                    <li><a href ng-click="viewInfo()">Board Information</a></li>
-                    <li><a ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">add members..</a></li>-->
-                    <li><a href="/signout">로그아웃</a></li>
-                </ul>
-            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|right" >보드 생성</a></li>
+                <li><a href="/signout">로그아웃</a></li>
+            </ul>
 
         </div>
     </nav>
@@ -40,12 +29,10 @@
                 <ul>
                     <span data-ng-repeat="memo in memos | filter:searchKeyword " >
                         <div class="button-outer"  ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo" ng-drag-stop="onDragStop($data,$event)">
-                            <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo);" >
-                            </div>
                             <div class="button memo" ng-init="setColor(memo.title)" >
+                                <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo)"></div>
                                 <p class="text title" data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})" ></p>
                                 <span class="text content" data-ng-bind="memo.contents"></span>
-                                <p > 색 </p>
                             </div>
                         </div>
                     </span>
@@ -79,16 +66,18 @@
 
 <script type="text/ng-template" id="board_popover">
     <div class="triangle"></div>
-    <div class = "popover-outer">
-        <div>
-            <li> <a ns-popover ns-popover-template="rename-popover" ns-popover-placement="right">
-                보드명 변경</a></li>
-            <li><a data-ng-click="delete(board)" >보드 삭제</a></li>
-            <li><a href data-ng-click="viewMemoCreate()">Create memos..</a></li>
-            <li><a href ng-click="viewInfo()">Board Information</a></li>
-            <li><a ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">add members..</a></li>
-        </div>
-
+    <div class = "popover-board">
+        <li><a ns-popover ns-popover-template="rename-popover" ns-popover-placement="right">
+            보드명 변경
+        </a></li>
+        <div class="divider"></div>
+        <li><a data-ng-click="delete(board)" >보드 삭제</a></li>
+        <div class="divider"></div>
+        <li><a href data-ng-click="viewMemoCreate()">Create memos..</a></li>
+        <div class="divider"></div>
+        <li><a href ng-click="viewInfo()">Board Information</a></li>
+        <div class="divider"></div>
+        <li><a ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">add members..</a></li>
     </div>
 </script>
 

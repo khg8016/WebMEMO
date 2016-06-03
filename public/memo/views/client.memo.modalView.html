@@ -11,7 +11,7 @@
                     <br>
                     <small data-ng-bind="memo.created | date:'medium'"></small>
                     <small data-ng-bind="memo.creator.username"></small>
-                    <a data-ng-show="authentication.user._id === memo.creator._id" class="btn btn-default" href data-ng-click="toggleEdit()">edit</a>
+                    <a data-ng-show="authentication.user._id === memo.creator._id" class="btn-sm btn-primary" href data-ng-click="toggleEdit()">edit</a>
                 </div>
                 <div data-ng-show="!memoToggle">
                     <form data-ng-submit="update()" novalidate>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div>
-                            <button class="btn btn-success" type="submit">완료</button>
+                            <button class="btn-sm btn-success" type="submit">완료</button>
                         </div>
                         <div data-ng-show="error">
                             <strong data-ng-bind="error"></strong>
@@ -50,7 +50,7 @@
                             <br>
                         </div>
                         <br>
-                        <button type="button" ngf-select="uploadFiles($files)" multiple="multiple" ngf-max-size="100MB" >Upload on file select</button>
+                        <button type="button" class="btn btn-default" ngf-select="uploadFiles($files)" multiple="multiple" ngf-max-size="100MB" >file select</button>
                         <div ngf-drop="uploadFiles($files)" class="drop-box" ngf-drag-over-class="'dragover'"ngf-multiple="true" ngf-max-size="20MB">
                             <br>
                             Drop files here
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                     <div>
-                        <button type="submit">댓글 남기기</button>
+                        <button class="btn-sm btn-info"type="submit">댓글 남기기</button>
                     </div>
                 </form>
                 <br>
@@ -83,8 +83,8 @@
                         <br>
                         <small data-ng-bind="comment.created  | date:'medium'"></small>
                         <div data-ng-show="authentication.user._id == comment.creator._id">
-                            <a class="btn btn-default" href data-ng-click="commentToggleEdit(comment)">수정</a>
-                            <a class="btn btn-default" href data-ng-click="deleteComment(comment)">X</a>
+                            <a class="btn-sm btn-primary" href data-ng-click="commentToggleEdit(comment)">수정</a>
+                            <a class="btn-sm btn-primary" href data-ng-click="deleteComment(comment)">삭제</a>
                         </div>
                     </div>
                     <div data-ng-show="commentToggle[$index]">
@@ -92,7 +92,7 @@
                                 <div>
                                     <textarea data-ng-model="comment.content" id="content" cols="30" rows="1" placeholder="Write a comment.."></textarea>
                                 </div>
-                                <button type="submit">수정</button>
+                                <button type="submit" class="btn-sm btn-success">수정</button>
                         </form>
                     </div>
                     <br>
