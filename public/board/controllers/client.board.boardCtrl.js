@@ -12,7 +12,6 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
         $scope.memos = [];
         $scope.boardName="";
 
-
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);
         });
@@ -163,9 +162,19 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
 
         };
 
-        $scope.onDropStop = function(data, event, state){
-            console.log("vcxzvcxzvx");
-        };
+        $scope.setColor = function(id){
+            console.log(id);
+            var el = angular.element('.11');
+            console.log(""+el.html());
+            if(id=="2번"){
+                console.log("aa");
+                el.css("color", "#ffffff");
+            }
+            else{
+                console.log("bb");
+                el.css("color", "##ff00ff");
+            }
+        }
     }
 ]);
 

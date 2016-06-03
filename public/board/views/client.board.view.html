@@ -13,7 +13,7 @@
 
             <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height:1px;">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|left" >보드 생성</a></li>
+                    <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|right" >보드 생성</a></li>
                     <!--<li><a href data-ng-click="viewMemoCreate()">Create memos..</a></li>
                     <li><a href ng-click="viewInfo()">Board Information</a></li>
                     <li><a ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">add members..</a></li>-->
@@ -38,13 +38,14 @@
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <label>Search : <input class="input-sm" type="text" ng-model="searchKeyword" placeholder="keyword" autofocus="" /> </label>
                 <ul>
-                    <span data-ng-repeat="memo in memos | filter:searchKeyword ">
-                        <div class="button-outer" ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo" ng-drag-stop="onDragStop($data,$event)">
+                    <span data-ng-repeat="memo in memos | filter:searchKeyword " >
+                        <div class="button-outer"  ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo" ng-drag-stop="onDragStop($data,$event)">
                             <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo);" >
                             </div>
-                            <div class="button memo" ui-sref="board_memo.view({memoId : memo._id})" >
-                                <p class="text title" data-ng-bind="memo.title"></p>
+                            <div class="button memo" ng-init="setColor(memo.title)" >
+                                <p class="text title" data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})" ></p>
                                 <span class="text content" data-ng-bind="memo.contents"></span>
+                                <p > 색 </p>
                             </div>
                         </div>
                     </span>
