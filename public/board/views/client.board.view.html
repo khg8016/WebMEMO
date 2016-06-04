@@ -20,7 +20,7 @@
                         <span ui-sref="board_memo({boardId : board._id})">
                             <small class="boardName"  data-ng-bind="board.name" ></small>
                         </span>
-                        <small class="deleteIcon" data-ng-show="authentication.user._id === board.creator || authentication.user._id === board.creator._id" ns-popover ns-popover-template="board_popover" ns-popover-placement="right">★</small>
+                        <small class="deleteIcon" data-ng-show="authentication.user._id === board.creator || authentication.user._id === board.creator._id" ns-popover ns-popover-template="board_popover" ns-popover-placement="right"></small>
                     </li>
                 </ul>
             </div>
@@ -29,10 +29,11 @@
                 <ul>
                     <span data-ng-repeat="memo in memos | filter:searchKeyword " >
                         <div class="button-outer"  ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo" ng-drag-stop="onDragStop($data,$event)">
-                            <div class="button memo" ng-init="setColor(memo.title)" >
+                            <div class="button" style="background-color: {{memo.color}}" >
+                                <div id="colorBtn" ns-popover ns-popover-template="memo_popover" ns-popover-placement="bottom|left"></div>
                                 <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo)"></div>
                                 <p class="text title" data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})" ></p>
-                                <span class="text content" data-ng-bind="memo.contents"></span>
+                                <p class="text content" data-ng-bind="memo.contents"></p>
                             </div>
                         </div>
                     </span>
@@ -66,18 +67,18 @@
 
 <script type="text/ng-template" id="board_popover">
     <div class="triangle"></div>
-    <div class = "popover-board">
+    <div class = "dropdown">
         <li><a ns-popover ns-popover-template="rename-popover" ns-popover-placement="right">
             보드명 변경
         </a></li>
         <div class="divider"></div>
         <li><a data-ng-click="delete(board)" >보드 삭제</a></li>
         <div class="divider"></div>
-        <li><a href data-ng-click="viewMemoCreate()">Create memos..</a></li>
+        <li><a href data-ng-click="viewMemoCreate()">메모 생성</a></li>
         <div class="divider"></div>
-        <li><a href ng-click="viewInfo()">Board Information</a></li>
+        <li><a href ng-click="viewInfo()">보드 정보</a></li>
         <div class="divider"></div>
-        <li><a ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">add members..</a></li>
+        <li><a ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">멤버 추가</a></li>
     </div>
 </script>
 
@@ -116,3 +117,17 @@
     </div>
 </script>
 
+<script type="text/ng-template" id="memo_popover">
+    <div class="triangle"></div>
+    <div class = "dropdown">
+        <li><a style="background-color: #81D4FA" ng-click="setColor($event, memo._id, 1)">파랑</a></li>
+        <div class="divider"></div>
+        <li><a style="background-color: #69F0AE" ng-click="setColor($event, memo._id, 2)">초록</a></li>
+        <div class="divider"></div>
+        <li><a style="background-color: #FCE4EC" ng-click="setColor($event, memo._id, 3)">분홍</a></li>
+        <div class="divider"></div>
+        <li><a style="background-color: #E1BEE7" ng-click="setColor($event, memo._id, 4)">보라</a></li>
+        <div class="divider"></div>
+        <li><a style="background-color: #ffffcc" ng-click="setColor($event, memo._id, 5)">노랑</a></li>
+    </div>
+</script>

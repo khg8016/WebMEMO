@@ -23,7 +23,6 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
             memo.$save({boardId: $stateParams.boardId},
                 function(memo){
                     $rootScope.$emit('$memoCreate', memo);
-                    console.log($scope.fileList.length);
                     if ($scope.fileList.length) {
                         $scope.uploadFiles($scope.fileList, memo._id);
                         console.log("upload");
@@ -37,7 +36,6 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
 
 
         $scope.uploadFiles = function (files, memoId) {
-            console.log(files.length);
             if (files && files.length) {
                 for (var i = 0, len = files.length; i < len; i++) {
                     Upload.upload({
@@ -52,7 +50,6 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
 };
 
 $scope.add = function(files){
-    console.log("fdsa " + files.length);
     if (files && files.length) {
         for (var i = 0, len = files.length; i < len; i++) {
             $scope.fileList.push(files[i]);

@@ -90,6 +90,25 @@ module.exports.updateList = function(req, res){
 
 };
 
+module.exports.colorUpdate = function(req, res){
+    var id = req.body.id,
+        color = req.body.color;
+    Memo.findById(id, function(err, memo){
+        console.log(memo.title);
+        memo.color = color;
+        memo.save(function(err){
+            if(err){
+                return res.status(400).send({
+                    message: getErrorMessage(err)
+                });
+            } else{
+                res.json(memo);
+            }
+        });
+    });
+    /**/
+};
+
 module.exports.delete = function(req, res){
     var memo = req.memo,
         memos = req.board.memos;

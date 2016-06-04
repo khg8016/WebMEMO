@@ -24,6 +24,10 @@ var memoSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    color : {
+        type: String,
+        default: '#ffffcc'
+    },
     files : [{
         type : mongoose.Schema.Types.Mixed
     }],
@@ -43,6 +47,7 @@ var memoSchema = new Schema({
             ref : 'User'
         }
     }]
+
 });
 
 memoSchema.methods.addFile = function(file, options, fn){

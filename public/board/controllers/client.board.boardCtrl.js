@@ -86,8 +86,10 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
                         }
                     }
                 });
-                $state.go('board');
             }
+
+            if(board._id === $stateParams.boardId)
+                $state.go('board');
 
         };
 
@@ -162,18 +164,37 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
 
         };
 
-        $scope.setColor = function(id){
-            console.log(id);
-            var el = angular.element('#11');
-            console.log(""+el.html());
-            /*if(){
-                console.log("aa");
-                el.css("color", "#ffffff");
+        $scope.setColor = function(event, id, color){
+            var el = angular.element(event.target).parent(),
+                color;
+            if(color == 1){
+                color= "#81D4FA";
+                el.css("background-color", color);
+            } else if(color == 2){
+                color= "#69F0AE";
+                el.css("background-color", color);
+            } else if(color == 3){
+                color= "#FCE4EC";
+                el.css("background-color", color);
+            } else if(color == 4){
+                color= "#E1BEE7";
+                el.css("background-color", color);
+            } else if(color == 5){
+                color= "#ffffcc";
+                el.css("background-color", color);
             }
-            else{
-                console.log("bb");
-                el.css("color", "##ff00ff");
-            }*/
+
+            $http({
+                method: 'put',
+                url: '/api/memos/colorUpdate',
+                data : {id: id, color: color}
+            }).success(function (memo) {
+                console.log("color updated with "+ memo.color);
+                $rootScope.$emit('$memoUpdate', memo);
+            }).error(function(data){
+                console.log("in error" + data.msg);
+            });
+
         }
     }
 ]);

@@ -46,8 +46,6 @@
                             <a ng-show="file.contentType.substr(0,5) != 'image'" ng-click="downloadFile(file, $index)" data-ng-bind="file.filename" > </a>
                             <a ng-click="deleteFile(file)">delete</a>
                             <a ng-click="downloadFile(file, $index)" target="_blank" class="downLoad" download="" href="">download</a>
-                            <br>
-                            <br>
                         </div>
                         <br>
                         <button type="button" class="btn btn-default" ngf-select="uploadFiles($files)" multiple="multiple" ngf-max-size="100MB" >file select</button>

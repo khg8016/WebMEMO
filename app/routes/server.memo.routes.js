@@ -23,6 +23,9 @@ module.exports = function(app){
         get(memos.fileDownload).
         delete(memos.deleteFile);
 
+    app.route('/api/memos/colorUpdate').
+        put(memos.colorUpdate);
+
     app.get('/api/files/:memoId/:fileId/view', memos.viewFile);
 
     app.param('boardId', board.boardById);

@@ -28,7 +28,6 @@ angular.module('memo').controller('memoModalController', ['$rootScope','$scope',
                         method : 'POST',
                         file : files[i]
                     }).then(function(resp) {
-                        console.log(resp);
                         $scope.memo.files.push(resp.data);
                     }, function (resp) {
                 console.log('Error status: ' + resp.status);
