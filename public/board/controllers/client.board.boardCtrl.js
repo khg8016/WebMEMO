@@ -164,6 +164,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
 
         };
 
+
         $scope.setColor = function(event, id, color){
             var el = angular.element(event.target).parent(),
                 color;

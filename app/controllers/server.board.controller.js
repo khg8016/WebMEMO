@@ -81,9 +81,7 @@ module.exports.update = function(req, res){
 };
 
 module.exports.delete = function(req, res){
-    var boards = req.user.boards,
-        board = req.board;
-
+    var board = req.board;
     for(var i in board.memos){ //보드에 있는 메모 삭제
         board.memos[i].remove(function(err){
             if(err){
@@ -100,18 +98,21 @@ module.exports.delete = function(req, res){
                 message: getErrorMessage(err)
             });
         } else{//user의 보드 목록에서도 제거
-            for(var i= 0, len = boards.length; i< len; i++){
-                if(boards[i]._id == board._id) {
-                    boards.splice(i, 1);
-                    break;
-                }
-            }
+
             User.findOne({_id : req.user._id}, function(err1, user) {
                 if (err1) {
                     return res.status(400).send({
                         message: getErrorMessage(err1)
                     });
                 } else {
+                    for(var i= 0, len = user.boards.length; i< len; i++){
+                        console.log(board._id);
+                        console.log(user.boards[i]);
+                        if(user.boards[i].toString() === board._id.toString()) {
+                            user.boards.splice(i, 1);
+                            break;
+                        }
+                    }
                     user.save(function(err2) {
                         if (err2) {
                             return res.status(400).send({

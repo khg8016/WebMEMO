@@ -7,6 +7,9 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a ns-popover ns-popover-template="popover" ns-popover-placement="bottom|right" >보드 생성</a></li>
+                <li><a href data-ng-click="viewMemoCreate()">메모 생성</a></li>
+                <li><a href ng-click="viewInfo()">보드 정보</a></li>
+                <li><a ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">멤버 추가</a></li>
                 <li><a href="/signout">로그아웃</a></li>
             </ul>
 
@@ -16,7 +19,7 @@
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
                 <ul class="nav nav-sidebar">
-                    <li class="boardList" data-ng-repeat="board in boards" >
+                    <li class="boardList" data-ng-repeat="board in boards">
                         <span ui-sref="board_memo({boardId : board._id})">
                             <small class="boardName"  data-ng-bind="board.name" ></small>
                         </span>
@@ -25,10 +28,10 @@
                 </ul>
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <label>Search : <input class="input-sm" type="text" ng-model="searchKeyword" placeholder="keyword" autofocus="" /> </label>
+                <label>Search : <input class="input-sm" type="text" ng-model="searchMemos" placeholder="keyword" autofocus="" /> </label>
                 <ul>
-                    <span data-ng-repeat="memo in memos | filter:searchKeyword " >
-                        <div class="button-outer"  ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo" ng-drag-stop="onDragStop($data,$event)">
+                    <span data-ng-repeat="memo in memos | filter:searchMemos " >
+                        <div class="button-outer"  ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo">
                             <div class="button" style="background-color: {{memo.color}}" >
                                 <div id="colorBtn" ns-popover ns-popover-template="memo_popover" ns-popover-placement="bottom|left"></div>
                                 <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo)"></div>
@@ -73,12 +76,7 @@
         </a></li>
         <div class="divider"></div>
         <li><a data-ng-click="delete(board)" >보드 삭제</a></li>
-        <div class="divider"></div>
-        <li><a href data-ng-click="viewMemoCreate()">메모 생성</a></li>
-        <div class="divider"></div>
-        <li><a href ng-click="viewInfo()">보드 정보</a></li>
-        <div class="divider"></div>
-        <li><a ns-popover ns-popover-template="addmember-popover" ns-popover-placement="bottom|left">멤버 추가</a></li>
+
     </div>
 </script>
 
