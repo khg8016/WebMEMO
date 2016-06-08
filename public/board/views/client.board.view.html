@@ -36,7 +36,7 @@
                                 <div id="colorBtn" ns-popover ns-popover-template="memo_popover" ns-popover-placement="bottom|left"></div>
                                 <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo)"></div>
                                 <p class="text title" data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})" ></p>
-                                <p class="text content" data-ng-bind="memo.contents"></p>
+                                <p class="text content" data-ng-bind="memo.contents" ui-sref="board_memo.view({memoId : memo._id})"></p>
                             </div>
                         </div>
                     </span>

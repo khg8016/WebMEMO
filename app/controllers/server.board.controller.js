@@ -68,7 +68,6 @@ module.exports.read = function(req, res){
 module.exports.update = function(req, res){
     var board = req.board;
     board.name = req.body.name;
-    console.log(req.body.name);
     board.save(function(err){
         if(err){
             return res.status(400).send({
@@ -106,8 +105,6 @@ module.exports.delete = function(req, res){
                     });
                 } else {
                     for(var i= 0, len = user.boards.length; i< len; i++){
-                        console.log(board._id);
-                        console.log(user.boards[i]);
                         if(user.boards[i].toString() === board._id.toString()) {
                             user.boards.splice(i, 1);
                             break;

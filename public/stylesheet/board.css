@@ -222,11 +222,17 @@ body {
 }
 
 .content {
-    float:left;
+    text-align:left;
     margint-top: 3px;
     -webkit-line-clamp: 7;
     font-size:14px;
 }
+
+.content:hover,
+.content:focus{
+    font-weight: bold;
+}
+
 .button-default {
     border-radius: 5px;
     background-color: #5cb85c;

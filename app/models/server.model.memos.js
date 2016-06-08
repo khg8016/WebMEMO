@@ -8,12 +8,11 @@ var mongoose= require('mongoose'),
 var memoSchema = new Schema({
     title : {
         type: String,
-        required : 'title is required',
         trim : true
     },
     contents : {
         type: String,
-        default: '',
+        required : 'contents is required',
         trim : true
     },
     creator : {

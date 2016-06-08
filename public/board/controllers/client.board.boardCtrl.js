@@ -157,7 +157,6 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
                 url: '/api/main/' + $scope.board._id + '/memo',
                 data : {index: index, index2: index2}
             }).success(function (data) {
-                console.log("sssss")
             }).error(function(data){
                 console.log("in error" + data.msg);
             });
