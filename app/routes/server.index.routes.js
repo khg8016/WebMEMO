@@ -12,7 +12,7 @@ module.exports = function(app){
     app.post('/signin', function(req, res, next) {
         passport.authenticate('local', function(err, user, info) {
             if (err) { return next(err); }
-            if (!user) { return res.send(200, {msg : "아이디 또는 비밀번호를 다시 확인해주세요"}); }
+            if (!user) { return res.send(200, {msg : info.message}); }
             req.logIn(user, function(err) {
                 if (err) { return next(err); }
                 return res.send(200, {msg: ""});

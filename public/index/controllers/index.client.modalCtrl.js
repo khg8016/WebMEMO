@@ -24,12 +24,13 @@ angular.module('index').controller('modalController', ['$scope', '$location', '$
                     url: '/signup',
                     data: data
                 }).success(function (data) {
-                    if(data.msg !== "") {
+                    if(data.msg !==  "") {
                         $scope.message = data.msg;
                     }
-                    if(data.msg ==="") {
+                    if(data.msg === "") {
                         window.location = '/webmemo#!/main';
                     }
+                    console.log(data.msg);
                 }).error(function(data){
                     console.log("error" + data.msg);
                     $scope.messgae = data.msg;
@@ -48,16 +49,15 @@ angular.module('index').controller('modalController', ['$scope', '$location', '$
                     data: data
                 }).success(function (data) {
                     if(data.msg !== "") {
-                    $scope.message = data.msg;
-                }
-                else if(data.msg ==="") {
-                    window.location = '/webmemo#!/main';
-                }
-            }).error(function(data){
-                console.log("in error" + data.msg);
-                $scope.messgae = data.msg;
-            });
-        };
+                        $scope.message = data.msg;
+                    } else if(data.msg ==="") {
+                        window.location = '/webmemo#!/main';
+                    }
+                }).error(function(data){
+                    console.log("in error" + data.msg);
+                    $scope.messgae = data.msg;
+                });
+            };
 
     }
 ]);

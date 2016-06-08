@@ -10,7 +10,6 @@ var passport = require('passport'),
 module.exports = function() {
     // Use the Passport's Local strategy
     passport.use(new localStrategy(function(username, password, done) {
-        // Use the 'User' model 'findOne' method to find a user with the current username
         user.findOne({
             username: username
         }, function(err, user) {
@@ -20,17 +19,16 @@ module.exports = function() {
 
             if (!user) {
                 return done(null, false, {
-                    message: 'Unknown user'
+                    message: '존재하지 않는 ID 입니다.'
                 });
             }
 
             if (!user.authenticate(password)) {
                 return done(null, false, {
-                    message: 'Invalid password'
+                    message: '비밀번호를 다시 확인해주세요.'
                 });
             }
 
-            console.log("localocal");
             return done(null, user);
         });
     }));
