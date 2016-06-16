@@ -32,7 +32,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
         $rootScope.$on('$memoUpdate', function(event, memo){
             for (var i= 0, len = $scope.memos.length; i<len; i++) {
                 if ($scope.memos[i]._id == memo._id) {
-                    $scope.memos[i] = memo;
+                    $scope.memos[i].color = memo.color;
                     break;
                 }
             }
@@ -164,24 +164,17 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
         };
 
 
-        $scope.setColor = function(event, id, color){
-            var el = angular.element(event.target).parent(),
-                color;
-            if(color == 1){
-                color= "#81D4FA";
-                el.css("background-color", color);
-            } else if(color == 2){
-                color= "#69F0AE";
-                el.css("background-color", color);
-            } else if(color == 3){
-                color= "#FCE4EC";
-                el.css("background-color", color);
-            } else if(color == 4){
-                color= "#E1BEE7";
-                el.css("background-color", color);
-            } else if(color == 5){
-                color= "#ffffcc";
-                el.css("background-color", color);
+        $scope.setColor = function(event, id, inputColor){
+
+            var color;
+            
+            switch (inputColor){
+                case 1: color= "#81D4FA"; break;
+                case 2: color= "#69F0AE"; break;
+                case 3: color= "#FCE4EC"; break;
+                case 4: color= "#E1BEE7"; break;
+                case 5: color= "#ffffcc"; break;
+                default: break;
             }
 
             $http({
