@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div data-ng-show="memoToggle">
-                    <h class="text" data-ng-bind="memo.contents"></h>
+                    <p class="text">{{memo.contents}}</p>
                     <br>
                     <small data-ng-bind="memo.created | date:'medium'"></small>
                     <small data-ng-bind="memo.creator.username"></small>

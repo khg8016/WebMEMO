@@ -17,7 +17,9 @@ angular.module('memo').controller('memoModalController2', ['$rootScope' ,'$scope
         $scope.create = function(){
             var memo = new Memos({
                 title : this.title,
-                contents : this.contents
+                contents : this.contents,
+                left: 100,
+                top: 100
             });
 
             memo.$save({boardId: $stateParams.boardId},

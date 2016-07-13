@@ -46,7 +46,6 @@ var memoSchema = new Schema({
             ref : 'User'
         }
     }]
-
 });
 
 memoSchema.methods.addFile = function(file, options, fn){

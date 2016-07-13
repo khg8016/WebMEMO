@@ -26,12 +26,15 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
         });
 
         $rootScope.$on('$memoCreate', function(event, memo){
+            console.log(memo.color);
+            console.log(memo.left);
             $scope.memos.push(memo);
         });
 
         $rootScope.$on('$memoUpdate', function(event, memo){
             for (var i= 0, len = $scope.memos.length; i<len; i++) {
                 if ($scope.memos[i]._id == memo._id) {
+                    $scope.memos[i].contents = memo.contents;
                     $scope.memos[i].color = memo.color;
                     break;
                 }
@@ -167,7 +170,7 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
         $scope.setColor = function(event, id, inputColor){
 
             var color;
-            
+
             switch (inputColor){
                 case 1: color= "#81D4FA"; break;
                 case 2: color= "#69F0AE"; break;

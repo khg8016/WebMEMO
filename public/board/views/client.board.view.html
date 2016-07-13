@@ -31,12 +31,13 @@
                 <label>Search : <input class="input-sm" type="text" ng-model="searchMemos" placeholder="keyword" autofocus="" /> </label>
                 <ul>
                     <span data-ng-repeat="memo in memos | filter:searchMemos " >
-                        <div class="button-outer"  ng-drop="true" ng-drag="true" ng-drop-success="onDropComplete($index, $data, $event)"  ng-drag-data="memo">
-                            <div class="button" style="background-color: {{memo.color}}" >
+                        <div class="button-outer" >
+                            <div class="button" id="{{memo._id}}" style="background-color: {{memo.color}}; position:absolute; left:100; top:100px; cursor:pointer; cursor:hand" onmousedown='startDrag(event, this)' >
                                 <div id="colorBtn" ns-popover ns-popover-template="memo_popover" ns-popover-placement="bottom|left"></div>
                                 <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo)"></div>
                                 <p class="text title" data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})" ></p>
-                                <p class="text content" data-ng-bind="memo.contents" ui-sref="board_memo.view({memoId : memo._id})"></p>
+                                <p class="text content">{{memo.contents}}</p>
+
                             </div>
                         </div>
                     </span>
@@ -46,6 +47,71 @@
     </div>
 
 </section>
+
+<script type='text/javascript'>
+    var img_L = 0;
+    var img_T = 0;
+    var targetObj;
+    function getLeft(o){
+        return parseInt(o.style.left.replace('px', ''));
+    }
+    function getTop(o){
+        return parseInt(o.style.top.replace('px', ''));
+    }
+
+    // 움직이기
+    function moveDrag(e){
+        var e_obj = window.event? window.event : e;
+        var dmvx = parseInt(e_obj.clientX + img_L);
+        var dmvy = parseInt(e_obj.clientY + img_T);
+        targetObj.style.left = dmvx +"px";
+        targetObj.style.top = dmvy +"px";
+        return false;
+    }
+
+    // 드래그 시작
+    function startDrag(e, obj){
+        targetObj = obj;
+        var e_obj = window.event? window.event : e;
+        img_L = getLeft(obj) - e_obj.clientX;
+        img_T = getTop(obj) - e_obj.clientY;
+
+        document.onmousemove = moveDrag;
+        document.onmouseup = stopDrag;
+        if(e_obj.preventDefault)e_obj.preventDefault();
+    }
+
+    // 드래그 멈추기
+    function stopDrag(){
+        setCookie(targetObj.id+"left", targetObj.style.left, 100);
+        setCookie(targetObj.id+"top", targetObj.style.top, 100);
+        document.onmousemove = null;
+        document.onmouseup = null;
+    }
+
+    function setCookie(cName, cValue, cDay){
+        var expire = new Date();
+        expire.setDate(expire.getDate() + cDay);
+        cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
+        if(typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
+        document.cookie = cookies;
+    }
+
+    function getCookie(cName) {
+        cName = cName + '=';
+        var cookieData = document.cookie;
+        var start = cookieData.indexOf(cName);
+        var cValue = '';
+        if(start != -1){
+            start += cName.length;
+            var end = cookieData.indexOf(';', start);
+            if(end == -1)end = cookieData.length;
+            cValue = cookieData.substring(start, end);
+        }
+        return unescape(cValue);
+    }
+
+</script>
 
 <script type="text/ng-template" id="popover">
     <div class="triangle"></div>
