@@ -3,18 +3,24 @@
  */
 'use strict';
 
-angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http', '$state', 'ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
-    function($rootScope, $scope, $stateParams, $http , $state, ModalService, Authentication, Memos, Board, BoardInformation){
+angular.module('board').controller('boardController', ['$rootScope', '$scope','$stateParams', '$http', '$state', '$cookies','ModalService','Authentication', 'Memos', 'Board', 'BoardInformation',
+    function($rootScope, $scope, $stateParams, $http , $state, $cookies, ModalService, Authentication, Memos, Board, BoardInformation){
         $scope.authentication = Authentication;
         $scope.boardInfo = BoardInformation;
         $scope.boardId= $stateParams.boardId;
         $scope.boards = [];
         $scope.memos = [];
         $scope.boardName="";
-
         $rootScope.$on('$boardCreate', function(event, board){
             $scope.boards.push(board);
         });
+
+        $scope.ff = function(){
+            console.log("fdsaf");
+            console.log($cookies.get($scope.memos[0]._id+"left"));
+
+            console.log(angular.element('#'+$scope.memos[1]._id).html());
+        };
 
         $rootScope.$on('$boardEdit', function(event, board){
             for(var i= 0, len = $scope.boards.length; i<len; i++){
@@ -49,8 +55,18 @@ angular.module('board').controller('boardController', ['$rootScope', '$scope','$
         };
 
         $scope.findMemos = function(){
-            $scope.memos = Memos.query({boardId: $stateParams.boardId});
+            console.log("memos");
+            $scope.memos = Memos.query({boardId: $stateParams.boardId}, function(){
+                var len = $scope.memos.length;
+                for(var i =0; i<len; i++){
+                    console.log('#'+$scope.memos[i]._id);
+                    console.log(angular.element('#'+$scope.memos[i]._id).html());
+                }
+            });
+
         };
+
+
 
         $scope.findOne = function(){ //특정 보드 찾음
             $scope.board = Board.get({boardId : $stateParams.boardId}, function(){

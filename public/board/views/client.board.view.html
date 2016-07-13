@@ -31,15 +31,15 @@
                 <label>Search : <input class="input-sm" type="text" ng-model="searchMemos" placeholder="keyword" autofocus="" /> </label>
                 <ul>
                     <span data-ng-repeat="memo in memos | filter:searchMemos " >
-                        <div class="button-outer" >
-                            <div class="button" id="{{memo._id}}" style="background-color: {{memo.color}}; position:absolute; left:100; top:100px; cursor:pointer; cursor:hand" onmousedown='startDrag(event, this)' >
+
+                            <div class="button" id="{{memo._id}}" style="background-color: {{memo.color}}; position:absolute; left:100px; top:100px; cursor:pointer; cursor:hand" onmousedown='startDrag(event, this)' >
                                 <div id="colorBtn" ns-popover ns-popover-template="memo_popover" ns-popover-placement="bottom|left"></div>
                                 <div id="deleteBtn" data-ng-show="authentication.user._id === memo.creator || authentication.user._id === memo.creator._id" data-ng-click="deleteMemo(memo)"></div>
                                 <p class="text title" data-ng-bind="memo.title" ui-sref="board_memo.view({memoId : memo._id})" ></p>
-                                <p class="text content">{{memo.contents}}</p>
+                                <p class="text content" ng-click="ff()">{{memo.contents}}</p>
 
                             </div>
-                        </div>
+
                     </span>
                 </ul>
             </div>
@@ -52,6 +52,7 @@
     var img_L = 0;
     var img_T = 0;
     var targetObj;
+
     function getLeft(o){
         return parseInt(o.style.left.replace('px', ''));
     }
